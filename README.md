@@ -1,37 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Build Frontend Foundation
 
-## Getting Started
+## What am I advertising ⛩️?
 
-First, run the development server:
+* New, like-new/refurbished, and secondhand manga and books
+* Vintage and retro manga-related memorabilia
+* Japanese-inspired house and room décor
+* Collectible items for readers, fans, and collectors
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Who is the main audience 🐲?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* Teen and young adult audiences ages 13+
+* Japanese manga and comic enthusiasts
+* Beginning and advanced Japanese-language learners
+* Collectors, traders, merchants, and independent sellers
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What is MangaMarketplace 🏠?
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+MangaMarketplace is a trustworthy, technically focused secondhand marketplace built around manga, books, collectibles, and related merchandise.
 
-## Learn More
+The platform gives users a place to upgrade their collections, discover new material, explore manga-related products, and sell or auction items they no longer have space for.
 
-To learn more about Next.js, take a look at the following resources:
+Our primary goal is to create a marketplace centered on the circulation and reuse of secondhand manga. Instead of unwanted volumes sitting unused on a shelf, MangaMarketplace helps them find new homes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Users can sell individual volumes, combine separate books into complete or partial collections, trade collectible items, or purchase books that fit naturally into an existing collection.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The marketplace should make it easier to:
 
-## Deploy on Vercel
+* Fill missing volumes in an existing manga series
+* Build a collection one volume at a time
+* Buy complete or partial manga sets
+* Resell books that are no longer wanted
+* Discover older, uncommon, vintage, or collectible items
+* Find manga and Japanese reading material for language study
+* Connect buyers, collectors, and sellers through one organized marketplace
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# build-frontend-foundation
+The frontend should communicate a balance between **modern e-commerce, secondhand trading, Japanese pop culture, and collector culture** while remaining approachable to users who may simply be looking for their next book.
