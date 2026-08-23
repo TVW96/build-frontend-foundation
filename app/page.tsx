@@ -1,66 +1,9 @@
+import SiteHeader from "@/components/SiteHeader";
+
 export default function Home() {
   return (
     <div className="page">
-      {/* ==================== SITE HEADER ==================== */}
-      <header className="site-header">
-        <div className="site-header__inner">
-          <a className="brand" href="/" aria-label="Mangamarketplace — home">
-            <span className="brand__mark" aria-hidden="true">
-              ✦
-            </span>
-            <span className="brand__name">Mangamarketplace</span>
-          </a>
-
-          <nav className="primary-nav" aria-label="Primary">
-            <ul className="primary-nav__list">
-              <li>
-                <a href="/shop">Shop</a>
-              </li>
-              <li>
-                <a href="/series">Series</a>
-              </li>
-              <li>
-                <a href="/genres">Genres</a>
-              </li>
-              <li>
-                <a href="/sell">Sell</a>
-              </li>
-              <li>
-                <a href="/about">About</a>
-              </li>
-            </ul>
-          </nav>
-
-          <div className="header-actions">
-            <form className="site-search" role="search" action="/search">
-              <label className="site-search__label" htmlFor="site-search-input">
-                Search manga
-              </label>
-              <input
-                id="site-search-input"
-                className="site-search__input"
-                type="search"
-                name="q"
-                placeholder="Search titles, series, authors…"
-              />
-              <button className="site-search__submit" type="submit">
-                Search
-              </button>
-            </form>
-
-            <a className="account-link" href="/account">
-              Account
-            </a>
-
-            <a className="cart-link" href="/cart">
-              Cart
-              <span className="cart-link__count" aria-label="0 items in cart">
-                0
-              </span>
-            </a>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       {/* ==================== MAIN CONTENT ==================== */}
       <main className="main" id="main-content">
