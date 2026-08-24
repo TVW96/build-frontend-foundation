@@ -1,4 +1,5 @@
 import SiteHeader from "@/components/SiteHeader";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -7,36 +8,102 @@ export default function Home() {
 
       {/* ==================== MAIN CONTENT ==================== */}
       <main className="main" id="main-content">
-        {/* ---------- Hero ---------- */}
-        <section className="hero" aria-labelledby="hero-heading">
-          <div className="hero__content">
-            <p className="hero__eyebrow">New &amp; second-hand</p>
-            <h1 className="hero__heading" id="hero-heading">
-              Buy and sell manga — new releases and pre-loved volumes
-            </h1>
-            <p className="hero__lede">
-              Thousands of titles from shōnen classics to the latest seinen,
-              every copy graded by condition. Find your next read, or sell the
-              volumes on your shelf.
-            </p>
-            <div className="hero__actions">
-              <a className="button button--primary" href="/shop">
-                Browse the shop
-              </a>
-              <a className="button button--secondary" href="/sell">
-                Sell your manga
-              </a>
+        {/* ---------- Community marketplace header ---------- */}
+        <header className="community-hero" aria-labelledby="hero-heading">
+          <div className="community-hero__grid">
+            <div className="community-hero__content">
+              <p className="community-hero__eyebrow">
+                <span aria-hidden="true">読</span>
+                Community-powered manga marketplace
+              </p>
+              <h1 className="community-hero__heading" id="hero-heading">
+                <span className="community-hero__heading-primary">
+                  Sell the copies you own.{" "}
+                </span>
+                <span className="community-hero__heading-secondary">
+                  Buy the exact manga you want.
+                </span>
+              </h1>
+              <p className="community-hero__lede">
+                Search by series, volume, edition, ISBN, and condition. Track
+                missing volumes, inspect real-copy photos, and bundle listings
+                from trusted collectors.
+              </p>
+
+              <div className="community-hero__actions">
+                <Link className="hero-button hero-button--primary" href="/shop">
+                  Shop manga
+                  <span aria-hidden="true">↗</span>
+                </Link>
+                <Link className="hero-button hero-button--secondary" href="/sell">
+                  Sell your manga
+                </Link>
+              </div>
+
+              <ul className="community-hero__assurances" aria-label="Marketplace features">
+                <li>Real-copy photos</li>
+                <li>Edition details</li>
+                <li>Singles &amp; sets</li>
+              </ul>
             </div>
+
+            <aside
+              className="shelf-finder"
+              aria-labelledby="shelf-finder-heading"
+            >
+              <div className="shelf-finder__topline">
+                <span>Community find</span>
+                <span className="shelf-finder__status">Match spotted</span>
+              </div>
+              <h2 id="shelf-finder-heading">The missing-volume moment</h2>
+              <p>
+                Follow a series and let the community help fill the gap—down
+                to volume, language, format, and printing.
+              </p>
+
+              <div className="volume-run" aria-label="Volumes 1, 2, 4, and 5 owned; volume 3 wanted">
+                <span>01</span>
+                <span>02</span>
+                <span className="volume-run__wanted">03</span>
+                <span>04</span>
+                <span>05</span>
+              </div>
+
+              <dl className="shelf-finder__details">
+                <div>
+                  <dt>Wanted</dt>
+                  <dd>Volume 03</dd>
+                </div>
+                <div>
+                  <dt>Edition</dt>
+                  <dd>English paperback</dd>
+                </div>
+                <div>
+                  <dt>Condition</dt>
+                  <dd>Good or better</dd>
+                </div>
+              </dl>
+            </aside>
           </div>
-          <figure className="hero__media">
-            <img
-              src="/placeholder-hero.jpg"
-              alt="A shelf of assorted manga volumes"
-              width={640}
-              height={480}
-            />
-          </figure>
-        </section>
+
+          <div className="community-hero__paths" aria-label="How the marketplace helps">
+            <Link href="/series">
+              <span>01</span>
+              <strong>Search the whole series</strong>
+              <small>Title, volume, language, ISBN</small>
+            </Link>
+            <Link href="/sell">
+              <span>02</span>
+              <strong>Show the copy you own</strong>
+              <small>Condition notes and seller photos</small>
+            </Link>
+            <Link href="/community">
+              <span>03</span>
+              <strong>Grow your collector circle</strong>
+              <small>Share shelves, shops, and wish lists</small>
+            </Link>
+          </div>
+        </header>
 
         {/* ---------- Featured genres ---------- */}
         <section className="categories" aria-labelledby="categories-heading">

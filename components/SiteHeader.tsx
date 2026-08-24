@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import styles from "./SiteHeader.module.css";
+import ThemeToggle from "./ThemeToggle";
 
 const utilityLinks = [
   { href: "/help", label: "Help center" },
@@ -9,9 +10,9 @@ const utilityLinks = [
 ];
 
 const primaryLinks = [
-  { href: "/shop", label: "Shop" },
+  { href: "/shop", label: "Browse" },
   { href: "/series", label: "Series" },
-  { href: "/genres", label: "Genres" },
+  { href: "/community", label: "Community" },
   { href: "/collectibles", label: "Collectibles" },
   { href: "/about", label: "About" },
 ];
@@ -26,7 +27,7 @@ export default function SiteHeader() {
       <div className={styles.utilityBar}>
         <div className={styles.utilityBarInner}>
           <p className={styles.utilityMessage}>
-            Free U.S. shipping on orders over $50
+            A community marketplace for manga readers and collectors
           </p>
 
           <nav aria-label="Utility navigation">
@@ -48,7 +49,7 @@ export default function SiteHeader() {
           aria-label="MangaMarketplace home"
         >
           <span className={styles.brandMark} aria-hidden="true">
-            ママ
+            読
           </span>
           <span>MangaMarketplace</span>
         </Link>
@@ -66,30 +67,37 @@ export default function SiteHeader() {
         <div className={styles.shoppingTools}>
           <form className={styles.search} role="search" action="/search">
             <label className={styles.visuallyHidden} htmlFor="header-search">
-              Search manga and collectibles
+              Search by title, series, ISBN, or seller
             </label>
             <input
               id="header-search"
               type="search"
               name="q"
-              placeholder="Search manga…"
+              placeholder="Title, series, ISBN, seller"
             />
             <button type="submit">Search</button>
           </form>
 
-          <ul className={styles.checkoutList} aria-label="Account and checkout">
-            <li>
-              <Link href="/account">Account</Link>
-            </li>
-            <li>
-              <Link className={styles.cartLink} href="/cart">
-                <span>Cart</span>
-                <span className={styles.cartCount} aria-label="0 items">
-                  0
-                </span>
-              </Link>
-            </li>
-          </ul>
+          <div className={styles.accountTools}>
+            <ThemeToggle />
+
+            <ul
+              className={styles.checkoutList}
+              aria-label="Account and checkout"
+            >
+              <li>
+                <Link href="/account">Account</Link>
+              </li>
+              <li>
+                <Link className={styles.cartLink} href="/cart">
+                  <span>Cart</span>
+                  <span className={styles.cartCount} aria-label="0 items">
+                    0
+                  </span>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </header>
