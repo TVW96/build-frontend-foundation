@@ -4,6 +4,11 @@
   --header-accent: var(--sys-color-accent);
   --header-surface: var(--sys-color-surface);
   --header-line: var(--sys-color-border);
+  --header-nav-item-gap: clamp(
+    0.65rem,
+    calc(0.5333rem + 0.5833vw),
+    1rem
+  );
 
   position: relative;
   color: var(--header-ink);
@@ -38,7 +43,7 @@
 .mainNavBar {
   display: grid;
   align-items: center;
-  inline-size: min(100%, 80rem);
+  inline-size: min(100%, var(--layout-content-max));
   margin-inline: auto;
   padding-inline: var(--layout-gutter);
 }
@@ -86,8 +91,8 @@
 }
 
 .mainNavBar {
-  grid-template-columns: auto minmax(25rem, 1fr) minmax(24rem, 32rem);
-  gap: var(--space-4) var(--space-6);
+  grid-template-columns: auto minmax(24rem, 1fr) minmax(22rem, 29rem);
+  gap: var(--space-4) var(--space-5);
   min-block-size: 5.5rem;
   padding-block: var(--space-4);
 }
@@ -121,7 +126,7 @@
 
 .primaryList {
   justify-content: center;
-  gap: var(--space-2) var(--space-4);
+  gap: var(--space-2) var(--header-nav-item-gap);
 }
 
 .primaryList a,
