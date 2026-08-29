@@ -1,11 +1,11 @@
 import Card from "@/components/SiteCard";
-import SiteHeader from "@/components/SiteHeader";
+import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="page">
-      <SiteHeader />
+      <Navbar />
 
       {/* ==================== MAIN CONTENT ==================== */}
       <main className="main" id="main-content">

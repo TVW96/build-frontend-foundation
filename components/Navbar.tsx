@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import styles from "./SiteHeader.module.css";
+import styles from "./Navbar.module.css";
 import ThemeToggle from "./ThemeToggle";
 
 const utilityLinks = [
@@ -17,9 +17,9 @@ const primaryLinks = [
   { href: "/about", label: "About" },
 ];
 
-export default function SiteHeader() {
+export default function Navbar() {
   return (
-    <header className={styles.siteHeader}>
+    <header className={styles.navBar}>
       <a className={styles.skipLink} href="#main-content">
         Skip to main content
       </a>

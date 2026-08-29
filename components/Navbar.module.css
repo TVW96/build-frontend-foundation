@@ -1,4 +1,4 @@
-.siteHeader {
+.navBar {
   --header-ink: var(--sys-color-on-utility);
   --header-muted: var(--sys-color-on-utility-muted);
   --header-accent: var(--sys-color-utility-accent);

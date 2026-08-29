@@ -1,8 +1,7 @@
 "use client";
 
 import { useLayoutEffect } from "react";
-
-import styles from "./SiteHeader.module.css";
+import styles from "./Navbar.module.css";
 
 type Theme = "light" | "dark";
 
