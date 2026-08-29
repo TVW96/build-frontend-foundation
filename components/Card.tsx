@@ -8,7 +8,7 @@ type CardProps = {
   imageUrl: string
 }
 
-function Card({ title, description }: CardProps ) {
+function Card({ title, description, imageUrl }: CardProps ) {
   return (
     <div className={styles.card}>
         <header className={styles.cardHeader}>
@@ -18,7 +18,7 @@ function Card({ title, description }: CardProps ) {
             <p>{description}</p>
             <div className={styles.cardImage}>
                 <Image 
-                    src="/recycle.png" 
+                    src={imageUrl} 
                     width={400} 
                     height={300} 
                     alt={title} 

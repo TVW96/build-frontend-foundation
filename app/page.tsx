@@ -1,6 +1,9 @@
 import Card from "@/components/Card";
+import Grid from "@/components/Grid";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+
+import { testProducts } from "@/data/grid-list-data";
 
 export default function Home() {
   return (
@@ -109,7 +112,18 @@ export default function Home() {
         {/* ---------- Test Card ---------- */}
         <Card title="This is a card component"
               description="This is a simple test card for demonstration purposes."
+              imageUrl="/recycle.png"
          /> 
+
+        {/* ---------- Test Grid ---------- */}
+        <Grid List={testProducts.map((product) => (
+          <Card
+            key={product.sellerID}
+            title={product.listingTitle}
+            description={product.description}
+            imageUrl={product.imageURL[0]}
+          />
+        ))} />
 
         {/* ---------- Featured genres ---------- */}
         <section className="categories" aria-labelledby="categories-heading">
