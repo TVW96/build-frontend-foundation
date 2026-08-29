@@ -389,29 +389,6 @@ body {
   max-inline-size: 100%;
 }
 
-.card {
-  width: min(100%, 22rem);
-  overflow: hidden;
-  border-radius: 0.75rem;
-  background: var(--sys-color-surface);
-}
-
-.card img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 16rem;
-  object-fit: cover;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  body {
-    transition:
-      color var(--duration-normal) var(--ease-standard),
-      background-color var(--duration-normal) var(--ease-standard);
-  }
-}
-
 /* Community marketplace header */
 .community-hero {
   position: relative;

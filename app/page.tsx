@@ -1,3 +1,4 @@
+import Card from "@/components/SiteCard";
 import SiteHeader from "@/components/SiteHeader";
 import Link from "next/link";
 
@@ -104,6 +105,11 @@ export default function Home() {
             </Link>
           </div>
         </header>
+
+        {/* ---------- Test Card ---------- */}
+        <Card title="This is a card component"
+              description="This is a simple test card for demonstration purposes."
+         /> 
 
         {/* ---------- Featured genres ---------- */}
         <section className="categories" aria-labelledby="categories-heading">
