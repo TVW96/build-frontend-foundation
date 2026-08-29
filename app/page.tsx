@@ -1,15 +1,10 @@
 import Card from "@/components/Card";
 import Grid from "@/components/Grid";
-import Navbar from "@/components/Navbar";
 import Link from "next/link";
-
-import { testProducts } from "@/data/grid-list-data";
 
 export default function Home() {
   return (
     <div className="page">
-      <Navbar />
-
       {/* ==================== MAIN CONTENT ==================== */}
       <main className="main" id="main-content">
         {/* ---------- Community marketplace header ---------- */}
@@ -44,7 +39,10 @@ export default function Home() {
                 </Link>
               </div>
 
-              <ul className="communityHeroAssurances" aria-label="Marketplace features">
+              <ul
+                className="communityHeroAssurances"
+                aria-label="Marketplace features"
+              >
                 <li>Real-copy photos</li>
                 <li>Edition details</li>
                 <li>Singles &amp; sets</li>
@@ -61,11 +59,14 @@ export default function Home() {
               </div>
               <h2 id="shelf-finder-heading">The missing-volume moment</h2>
               <p>
-                Follow a series and let the community help fill the gap—down
-                to volume, language, format, and printing.
+                Follow a series and let the community help fill the gap—down to
+                volume, language, format, and printing.
               </p>
 
-              <div className="volumeRun" aria-label="Volumes 1, 2, 4, and 5 owned; volume 3 wanted">
+              <div
+                className="volumeRun"
+                aria-label="Volumes 1, 2, 4, and 5 owned; volume 3 wanted"
+              >
                 <span>01</span>
                 <span>02</span>
                 <span className="volumeRunWanted">03</span>
@@ -90,7 +91,10 @@ export default function Home() {
             </aside>
           </div>
 
-          <div className="communityHeroPaths" aria-label="How the marketplace helps">
+          <div
+            className="communityHeroPaths"
+            aria-label="How the marketplace helps"
+          >
             <Link href="/series">
               <span>01</span>
               <strong>Search the whole series</strong>
@@ -108,22 +112,25 @@ export default function Home() {
             </Link>
           </div>
         </header>
-
-        {/* ---------- Test Card ---------- */}
-        <Card title="This is a card component"
+        {/* ---------- Featured marketplace items ---------- */}
+        <section className="featured" aria-labelledby="featured-heading">
+          <header className="sectionHeader">
+            <h2 className="sectionHeaderTitle" id="featured-heading">
+              Featured listings
+            </h2>
+            <a className="sectionHeaderLink" href="/shop">
+              View all
+            </a>
+          </header>
+          <ul className="featuredList">
+            {/* ---------- Test Card ---------- */}
+            <Card
+              title="This is a card component"
               description="This is a simple test card for demonstration purposes."
               imageUrl="/recycle.png"
-         /> 
-
-        {/* ---------- Test Grid ---------- */}
-        <Grid List={testProducts.map((product) => (
-          <Card
-            key={product.sellerID}
-            title={product.listingTitle}
-            description={product.description}
-            imageUrl={product.imageURL[0]}
-          />
-        ))} />
+            />
+          </ul>
+        </section>
 
         {/* ---------- Featured genres ---------- */}
         <section className="categories" aria-labelledby="categories-heading">
@@ -328,7 +335,11 @@ export default function Home() {
           </ul>
 
           <nav className="pagination" aria-label="Product pages">
-            <a className="paginationPrev" href="/shop?page=1" aria-disabled="true">
+            <a
+              className="paginationPrev"
+              href="/shop?page=1"
+              aria-disabled="true"
+            >
               Previous
             </a>
             <ol className="paginationList">

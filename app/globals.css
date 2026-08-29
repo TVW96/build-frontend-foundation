@@ -320,6 +320,14 @@ body {
   line-height: var(--line-height-body);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition:
+      color var(--duration-normal) var(--ease-standard),
+      background-color var(--duration-normal) var(--ease-standard);
+  }
+}
+
 :where(h1, h2, h3, h4, h5, h6) {
   color: var(--sys-color-text);
   font-family: var(--font-family-display);
