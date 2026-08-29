@@ -390,7 +390,7 @@ body {
 }
 
 /* Community marketplace header */
-.community-hero {
+.communityHero {
   position: relative;
   overflow: clip;
   color: var(--sys-color-text);
@@ -410,7 +410,7 @@ body {
   border-block-end: 1px solid var(--sys-color-border);
 }
 
-.community-hero::after {
+.communityHero::after {
   position: absolute;
   inset-block-start: -7rem;
   inset-inline-end: -5rem;
@@ -426,7 +426,7 @@ body {
   pointer-events: none;
 }
 
-.community-hero__grid {
+.communityHeroGrid {
   position: relative;
   z-index: 1;
   display: grid;
@@ -438,13 +438,13 @@ body {
   padding-inline: var(--layout-gutter);
 }
 
-.community-hero__content {
+.communityHeroContent {
   grid-column: 1 / span 7;
   align-self: center;
   min-inline-size: 0;
 }
 
-.community-hero__eyebrow {
+.communityHeroEyebrow {
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -456,7 +456,7 @@ body {
   text-transform: uppercase;
 }
 
-.community-hero__eyebrow span {
+.communityHeroEyebrow span {
   display: inline-grid;
   place-items: center;
   inline-size: 2rem;
@@ -468,7 +468,7 @@ body {
   letter-spacing: 0;
 }
 
-.community-hero__heading {
+.communityHeroHeading {
   display: grid;
   gap: 0.16em;
   max-inline-size: 12ch;
@@ -479,12 +479,12 @@ body {
   line-height: 0.92;
 }
 
-.community-hero__heading-primary,
-.community-hero__heading-secondary {
+.communityHeroHeadingPrimary,
+.communityHeroHeadingSecondary {
   display: block;
 }
 
-.community-hero__heading-secondary {
+.communityHeroHeadingSecondary {
   max-inline-size: 12ch;
   margin-inline-start: var(--space-5);
   color: var(--sys-color-accent);
@@ -493,21 +493,21 @@ body {
   line-height: 1;
 }
 
-.community-hero__lede {
+.communityHeroLede {
   max-inline-size: 61ch;
   margin: var(--space-6) 0 0;
   color: var(--sys-color-text-muted);
   font-size: var(--font-size-lg);
 }
 
-.community-hero__actions {
+.communityHeroActions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
   margin-block-start: var(--space-6);
 }
 
-.hero-button {
+.heroButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -525,33 +525,33 @@ body {
     box-shadow var(--duration-fast) var(--ease-standard);
 }
 
-.hero-button:hover {
+.heroButton:hover {
   translate: 0 -0.12rem;
   box-shadow: var(--sys-shadow-sm);
 }
 
-.hero-button--primary {
+.heroButtonPrimary {
   color: var(--sys-color-on-primary);
   background: var(--sys-color-primary);
 }
 
-.hero-button--primary:hover {
+.heroButtonPrimary:hover {
   color: var(--sys-color-on-primary);
   background: var(--sys-color-primary-hover);
 }
 
-.hero-button--secondary {
+.heroButtonSecondary {
   color: var(--sys-color-text);
   background: var(--sys-color-surface);
   border-color: var(--sys-color-border-strong);
 }
 
-.hero-button--secondary:hover {
+.heroButtonSecondary:hover {
   color: var(--sys-color-primary);
   border-color: var(--sys-color-primary);
 }
 
-.community-hero__assurances {
+.communityHeroAssurances {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-5);
@@ -563,13 +563,13 @@ body {
   list-style: none;
 }
 
-.community-hero__assurances li {
+.communityHeroAssurances li {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
 }
 
-.community-hero__assurances li::before {
+.communityHeroAssurances li::before {
   inline-size: 0.5rem;
   aspect-ratio: 1;
   background: var(--sys-color-accent);
@@ -577,7 +577,7 @@ body {
   content: "";
 }
 
-.shelf-finder {
+.shelfFinder {
   grid-column: 8 / -1;
   align-self: center;
   padding: var(--space-5);
@@ -590,7 +590,7 @@ body {
   backdrop-filter: blur(1rem);
 }
 
-.shelf-finder__topline {
+.shelfFinderTopline {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -602,7 +602,7 @@ body {
   text-transform: uppercase;
 }
 
-.shelf-finder__status {
+.shelfFinderStatus {
   padding-block: var(--space-1);
   padding-inline: var(--space-2);
   color: var(--sys-color-on-success-container);
@@ -612,18 +612,18 @@ body {
   text-transform: none;
 }
 
-.shelf-finder h2 {
+.shelfFinder h2 {
   margin: var(--space-6) 0 var(--space-3);
   font-size: var(--font-size-2xl);
   letter-spacing: -0.04em;
 }
 
-.shelf-finder > p {
+.shelfFinder > p {
   margin: 0;
   color: var(--sys-color-text-muted);
 }
 
-.volume-run {
+.volumeRun {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: end;
@@ -633,7 +633,7 @@ body {
   border-block-end: 0.3rem solid var(--sys-color-text);
 }
 
-.volume-run span {
+.volumeRun span {
   display: grid;
   place-items: end center;
   min-block-size: clamp(5.5rem, 10vw, 8rem);
@@ -647,14 +647,14 @@ body {
   font-weight: var(--font-weight-bold);
 }
 
-.volume-run span:nth-child(even) {
+.volumeRun span:nth-child(even) {
   min-block-size: clamp(6rem, 11vw, 8.75rem);
   color: var(--sys-color-on-secondary-container);
   background: var(--sys-color-secondary-container);
   border-color: var(--sys-color-secondary);
 }
 
-.volume-run .volume-run__wanted {
+.volumeRun .volumeRunWanted {
   position: relative;
   place-items: center;
   color: var(--sys-color-accent);
@@ -662,7 +662,7 @@ body {
   border: 2px dashed var(--sys-color-accent);
 }
 
-.volume-run__wanted::before {
+.volumeRunWanted::before {
   position: absolute;
   inset-block-start: 0.6rem;
   content: "+";
@@ -670,30 +670,30 @@ body {
   font-size: var(--font-size-lg);
 }
 
-.shelf-finder__details {
+.shelfFinderDetails {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-3);
   margin: 0;
 }
 
-.shelf-finder__details div {
+.shelfFinderDetails div {
   min-inline-size: 0;
 }
 
-.shelf-finder__details dt {
+.shelfFinderDetails dt {
   color: var(--sys-color-text-subtle);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
 }
 
-.shelf-finder__details dd {
+.shelfFinderDetails dd {
   margin: var(--space-1) 0 0;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
 }
 
-.community-hero__paths {
+.communityHeroPaths {
   position: relative;
   z-index: 1;
   display: grid;
@@ -704,7 +704,7 @@ body {
   border-inline: 1px solid var(--sys-color-border);
 }
 
-.community-hero__paths a {
+.communityHeroPaths a {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0 var(--space-3);
@@ -715,16 +715,16 @@ body {
   text-decoration: none;
 }
 
-.community-hero__paths a + a {
+.communityHeroPaths a + a {
   border-inline-start: 1px solid var(--sys-color-border);
 }
 
-.community-hero__paths a:hover,
-.community-hero__paths a:focus-visible {
+.communityHeroPaths a:hover,
+.communityHeroPaths a:focus-visible {
   background: var(--sys-color-surface);
 }
 
-.community-hero__paths span {
+.communityHeroPaths span {
   grid-row: 1 / span 2;
   color: var(--sys-color-accent);
   font-family: var(--font-family-mono);
@@ -732,62 +732,62 @@ body {
   font-weight: var(--font-weight-bold);
 }
 
-.community-hero__paths strong,
-.community-hero__paths small {
+.communityHeroPaths strong,
+.communityHeroPaths small {
   overflow-wrap: anywhere;
 }
 
-.community-hero__paths strong {
+.communityHeroPaths strong {
   font-size: var(--font-size-sm);
 }
 
-.community-hero__paths small {
+.communityHeroPaths small {
   margin-block-start: var(--space-1);
   color: var(--sys-color-text-muted);
   font-size: var(--font-size-xs);
 }
 
 @media (max-width: 56rem) {
-  .community-hero__grid {
+  .communityHeroGrid {
     grid-template-columns: 1fr;
     gap: var(--space-7);
   }
 
-  .community-hero__content,
-  .shelf-finder {
+  .communityHeroContent,
+  .shelfFinder {
     grid-column: auto;
   }
 
-  .community-hero__heading {
+  .communityHeroHeading {
     max-inline-size: 12ch;
   }
 
-  .community-hero__paths {
+  .communityHeroPaths {
     grid-template-columns: 1fr;
     border-inline: 0;
   }
 
-  .community-hero__paths a + a {
+  .communityHeroPaths a + a {
     border-block-start: 1px solid var(--sys-color-border);
     border-inline-start: 0;
   }
 }
 
 @media (max-width: 32rem) {
-  .community-hero__grid {
+  .communityHeroGrid {
     padding-block: var(--space-7);
   }
 
-  .community-hero__heading-secondary {
+  .communityHeroHeadingSecondary {
     margin-inline-start: 0;
   }
 
-  .community-hero__actions,
-  .hero-button {
+  .communityHeroActions,
+  .heroButton {
     inline-size: 100%;
   }
 
-  .shelf-finder__details {
+  .shelfFinderDetails {
     grid-template-columns: 1fr;
   }
 }

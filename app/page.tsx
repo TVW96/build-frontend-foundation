@@ -13,38 +13,38 @@ export default function Home() {
       {/* ==================== MAIN CONTENT ==================== */}
       <main className="main" id="main-content">
         {/* ---------- Community marketplace header ---------- */}
-        <header className="community-hero" aria-labelledby="hero-heading">
-          <div className="community-hero__grid">
-            <div className="community-hero__content">
-              <p className="community-hero__eyebrow">
+        <header className="communityHero" aria-labelledby="hero-heading">
+          <div className="communityHeroGrid">
+            <div className="communityHeroContent">
+              <p className="communityHeroEyebrow">
                 <span aria-hidden="true">読</span>
                 Community-powered manga marketplace
               </p>
-              <h1 className="community-hero__heading" id="hero-heading">
-                <span className="community-hero__heading-primary">
+              <h1 className="communityHeroHeading" id="hero-heading">
+                <span className="communityHeroHeadingPrimary">
                   Sell the copies you own.{" "}
                 </span>
-                <span className="community-hero__heading-secondary">
+                <span className="communityHeroHeadingSecondary">
                   Buy the exact manga you want.
                 </span>
               </h1>
-              <p className="community-hero__lede">
+              <p className="communityHeroLede">
                 Search by series, volume, edition, ISBN, and condition. Track
                 missing volumes, inspect real-copy photos, and bundle listings
                 from trusted collectors.
               </p>
 
-              <div className="community-hero__actions">
-                <Link className="hero-button hero-button--primary" href="/shop">
+              <div className="communityHeroActions">
+                <Link className="heroButton heroButtonPrimary" href="/shop">
                   Shop manga
                   <span aria-hidden="true">↗</span>
                 </Link>
-                <Link className="hero-button hero-button--secondary" href="/sell">
+                <Link className="heroButton heroButtonSecondary" href="/sell">
                   Sell your manga
                 </Link>
               </div>
 
-              <ul className="community-hero__assurances" aria-label="Marketplace features">
+              <ul className="communityHeroAssurances" aria-label="Marketplace features">
                 <li>Real-copy photos</li>
                 <li>Edition details</li>
                 <li>Singles &amp; sets</li>
@@ -52,12 +52,12 @@ export default function Home() {
             </div>
 
             <aside
-              className="shelf-finder"
+              className="shelfFinder"
               aria-labelledby="shelf-finder-heading"
             >
-              <div className="shelf-finder__topline">
+              <div className="shelfFinderTopline">
                 <span>Community find</span>
-                <span className="shelf-finder__status">Match spotted</span>
+                <span className="shelfFinderStatus">Match spotted</span>
               </div>
               <h2 id="shelf-finder-heading">The missing-volume moment</h2>
               <p>
@@ -65,15 +65,15 @@ export default function Home() {
                 to volume, language, format, and printing.
               </p>
 
-              <div className="volume-run" aria-label="Volumes 1, 2, 4, and 5 owned; volume 3 wanted">
+              <div className="volumeRun" aria-label="Volumes 1, 2, 4, and 5 owned; volume 3 wanted">
                 <span>01</span>
                 <span>02</span>
-                <span className="volume-run__wanted">03</span>
+                <span className="volumeRunWanted">03</span>
                 <span>04</span>
                 <span>05</span>
               </div>
 
-              <dl className="shelf-finder__details">
+              <dl className="shelfFinderDetails">
                 <div>
                   <dt>Wanted</dt>
                   <dd>Volume 03</dd>
@@ -90,7 +90,7 @@ export default function Home() {
             </aside>
           </div>
 
-          <div className="community-hero__paths" aria-label="How the marketplace helps">
+          <div className="communityHeroPaths" aria-label="How the marketplace helps">
             <Link href="/series">
               <span>01</span>
               <strong>Search the whole series</strong>
@@ -127,35 +127,35 @@ export default function Home() {
 
         {/* ---------- Featured genres ---------- */}
         <section className="categories" aria-labelledby="categories-heading">
-          <header className="section-header">
-            <h2 className="section-header__title" id="categories-heading">
+          <header className="sectionHeader">
+            <h2 className="sectionHeaderTitle" id="categories-heading">
               Browse by genre
             </h2>
-            <a className="section-header__link" href="/genres">
+            <a className="sectionHeaderLink" href="/genres">
               View all
             </a>
           </header>
 
-          <ul className="category-list">
-            <li className="category-card">
+          <ul className="categoryList">
+            <li className="categoryCard">
               <a href="/shop?genre=shonen">
                 <h3>Shōnen</h3>
                 <p>Action and adventure for young readers.</p>
               </a>
             </li>
-            <li className="category-card">
+            <li className="categoryCard">
               <a href="/shop?genre=shojo">
                 <h3>Shōjo</h3>
                 <p>Romance and drama, character-driven.</p>
               </a>
             </li>
-            <li className="category-card">
+            <li className="categoryCard">
               <a href="/shop?genre=seinen">
                 <h3>Seinen</h3>
                 <p>Mature stories for adult readers.</p>
               </a>
             </li>
-            <li className="category-card">
+            <li className="categoryCard">
               <a href="/shop?genre=josei">
                 <h3>Josei</h3>
                 <p>Slice-of-life and romance for grown-ups.</p>
@@ -165,13 +165,13 @@ export default function Home() {
         </section>
 
         {/* ---------- Product grid ---------- */}
-        <section className="product-listing" aria-labelledby="listing-heading">
-          <header className="section-header">
-            <h2 className="section-header__title" id="listing-heading">
+        <section className="productListing" aria-labelledby="listing-heading">
+          <header className="sectionHeader">
+            <h2 className="sectionHeaderTitle" id="listing-heading">
               Featured volumes
             </h2>
 
-            <form className="listing-filters" aria-label="Filter and sort">
+            <form className="listingFilters" aria-label="Filter and sort">
               <label htmlFor="filter-condition">Condition</label>
               <select id="filter-condition" name="condition">
                 <option value="any">Any condition</option>
@@ -189,11 +189,11 @@ export default function Home() {
             </form>
           </header>
 
-          <ul className="product-grid">
-            <li className="product-card">
+          <ul className="productGrid">
+            <li className="productCard">
               <article aria-labelledby="product-1-title">
-                <a className="product-card__media-link" href="/product/1">
-                  <figure className="product-card__media">
+                <a className="productCardMediaLink" href="/product/1">
+                  <figure className="productCardMedia">
                     <img
                       src="/placeholder-product.jpg"
                       alt="Cover of Blade of the Meridian, Volume 3"
@@ -202,32 +202,32 @@ export default function Home() {
                     />
                   </figure>
                 </a>
-                <div className="product-card__body">
-                  <h3 className="product-card__title" id="product-1-title">
+                <div className="productCardBody">
+                  <h3 className="productCardTitle" id="product-1-title">
                     <a href="/product/1">Blade of the Meridian, Vol. 3</a>
                   </h3>
-                  <p className="product-card__author">
+                  <p className="productCardAuthor">
                     by <a href="/authors/k-tanaka">K. Tanaka</a>
                   </p>
-                  <p className="product-card__condition" data-condition="new">
-                    <span className="visually-hidden">Condition:</span>
+                  <p className="productCardCondition" data-condition="new">
+                    <span className="visuallyHidden">Condition:</span>
                     New
                   </p>
-                  <p className="product-card__price">
-                    <span className="visually-hidden">Price:</span>
+                  <p className="productCardPrice">
+                    <span className="visuallyHidden">Price:</span>
                     <data value="9.99">$9.99</data>
                   </p>
-                  <button className="button button--primary" type="button">
+                  <button className="button buttonPrimary" type="button">
                     Add to cart
                   </button>
                 </div>
               </article>
             </li>
 
-            <li className="product-card">
+            <li className="productCard">
               <article aria-labelledby="product-2-title">
-                <a className="product-card__media-link" href="/product/2">
-                  <figure className="product-card__media">
+                <a className="productCardMediaLink" href="/product/2">
+                  <figure className="productCardMedia">
                     <img
                       src="/placeholder-product.jpg"
                       alt="Cover of Paper Lanterns, Volume 1"
@@ -236,32 +236,32 @@ export default function Home() {
                     />
                   </figure>
                 </a>
-                <div className="product-card__body">
-                  <h3 className="product-card__title" id="product-2-title">
+                <div className="productCardBody">
+                  <h3 className="productCardTitle" id="product-2-title">
                     <a href="/product/2">Paper Lanterns, Vol. 1</a>
                   </h3>
-                  <p className="product-card__author">
+                  <p className="productCardAuthor">
                     by <a href="/authors/m-sato">M. Satō</a>
                   </p>
-                  <p className="product-card__condition" data-condition="used">
-                    <span className="visually-hidden">Condition:</span>
+                  <p className="productCardCondition" data-condition="used">
+                    <span className="visuallyHidden">Condition:</span>
                     Second-hand · Like new
                   </p>
-                  <p className="product-card__price">
-                    <span className="visually-hidden">Price:</span>
+                  <p className="productCardPrice">
+                    <span className="visuallyHidden">Price:</span>
                     <data value="5.50">$5.50</data>
                   </p>
-                  <button className="button button--primary" type="button">
+                  <button className="button buttonPrimary" type="button">
                     Add to cart
                   </button>
                 </div>
               </article>
             </li>
 
-            <li className="product-card">
+            <li className="productCard">
               <article aria-labelledby="product-3-title">
-                <a className="product-card__media-link" href="/product/3">
-                  <figure className="product-card__media">
+                <a className="productCardMediaLink" href="/product/3">
+                  <figure className="productCardMedia">
                     <img
                       src="/placeholder-product.jpg"
                       alt="Cover of Last Train North, Volume 7"
@@ -270,32 +270,32 @@ export default function Home() {
                     />
                   </figure>
                 </a>
-                <div className="product-card__body">
-                  <h3 className="product-card__title" id="product-3-title">
+                <div className="productCardBody">
+                  <h3 className="productCardTitle" id="product-3-title">
                     <a href="/product/3">Last Train North, Vol. 7</a>
                   </h3>
-                  <p className="product-card__author">
+                  <p className="productCardAuthor">
                     by <a href="/authors/j-park">J. Park</a>
                   </p>
-                  <p className="product-card__condition" data-condition="used">
-                    <span className="visually-hidden">Condition:</span>
+                  <p className="productCardCondition" data-condition="used">
+                    <span className="visuallyHidden">Condition:</span>
                     Second-hand · Good
                   </p>
-                  <p className="product-card__price">
-                    <span className="visually-hidden">Price:</span>
+                  <p className="productCardPrice">
+                    <span className="visuallyHidden">Price:</span>
                     <data value="4.00">$4.00</data>
                   </p>
-                  <button className="button button--primary" type="button">
+                  <button className="button buttonPrimary" type="button">
                     Add to cart
                   </button>
                 </div>
               </article>
             </li>
 
-            <li className="product-card">
+            <li className="productCard">
               <article aria-labelledby="product-4-title">
-                <a className="product-card__media-link" href="/product/4">
-                  <figure className="product-card__media">
+                <a className="productCardMediaLink" href="/product/4">
+                  <figure className="productCardMedia">
                     <img
                       src="/placeholder-product.jpg"
                       alt="Cover of Tidepool, Volume 2"
@@ -304,22 +304,22 @@ export default function Home() {
                     />
                   </figure>
                 </a>
-                <div className="product-card__body">
-                  <h3 className="product-card__title" id="product-4-title">
+                <div className="productCardBody">
+                  <h3 className="productCardTitle" id="product-4-title">
                     <a href="/product/4">Tidepool, Vol. 2</a>
                   </h3>
-                  <p className="product-card__author">
+                  <p className="productCardAuthor">
                     by <a href="/authors/l-mendez">L. Méndez</a>
                   </p>
-                  <p className="product-card__condition" data-condition="new">
-                    <span className="visually-hidden">Condition:</span>
+                  <p className="productCardCondition" data-condition="new">
+                    <span className="visuallyHidden">Condition:</span>
                     New
                   </p>
-                  <p className="product-card__price">
-                    <span className="visually-hidden">Price:</span>
+                  <p className="productCardPrice">
+                    <span className="visuallyHidden">Price:</span>
                     <data value="10.99">$10.99</data>
                   </p>
-                  <button className="button button--primary" type="button">
+                  <button className="button buttonPrimary" type="button">
                     Add to cart
                   </button>
                 </div>
@@ -328,10 +328,10 @@ export default function Home() {
           </ul>
 
           <nav className="pagination" aria-label="Product pages">
-            <a className="pagination__prev" href="/shop?page=1" aria-disabled="true">
+            <a className="paginationPrev" href="/shop?page=1" aria-disabled="true">
               Previous
             </a>
-            <ol className="pagination__list">
+            <ol className="paginationList">
               <li>
                 <a href="/shop?page=1" aria-current="page">
                   1
@@ -344,7 +344,7 @@ export default function Home() {
                 <a href="/shop?page=3">3</a>
               </li>
             </ol>
-            <a className="pagination__next" href="/shop?page=2">
+            <a className="paginationNext" href="/shop?page=2">
               Next
             </a>
           </nav>
@@ -352,15 +352,15 @@ export default function Home() {
 
         {/* ---------- Newsletter CTA ---------- */}
         <section className="newsletter" aria-labelledby="newsletter-heading">
-          <h2 className="newsletter__heading" id="newsletter-heading">
+          <h2 className="newsletterHeading" id="newsletter-heading">
             New arrivals every week
           </h2>
-          <p className="newsletter__lede">
+          <p className="newsletterLede">
             Get an email when fresh stock and restocks land. No spam,
             unsubscribe anytime.
           </p>
-          <form className="newsletter__form" action="/subscribe" method="post">
-            <label className="visually-hidden" htmlFor="newsletter-email">
+          <form className="newsletterForm" action="/subscribe" method="post">
+            <label className="visuallyHidden" htmlFor="newsletter-email">
               Email address
             </label>
             <input
@@ -370,7 +370,7 @@ export default function Home() {
               placeholder="you@example.com"
               required
             />
-            <button className="button button--primary" type="submit">
+            <button className="button buttonPrimary" type="submit">
               Subscribe
             </button>
           </form>
@@ -378,10 +378,10 @@ export default function Home() {
       </main>
 
       {/* ==================== SITE FOOTER ==================== */}
-      <footer className="site-footer">
-        <div className="site-footer__inner">
-          <nav className="footer-nav" aria-label="Shop">
-            <h2 className="footer-nav__title">Shop</h2>
+      <footer className="siteFooter">
+        <div className="siteFooterInner">
+          <nav className="footerNav" aria-label="Shop">
+            <h2 className="footerNavTitle">Shop</h2>
             <ul>
               <li>
                 <a href="/shop">All manga</a>
@@ -395,8 +395,8 @@ export default function Home() {
             </ul>
           </nav>
 
-          <nav className="footer-nav" aria-label="Company">
-            <h2 className="footer-nav__title">Company</h2>
+          <nav className="footerNav" aria-label="Company">
+            <h2 className="footerNavTitle">Company</h2>
             <ul>
               <li>
                 <a href="/about">About</a>
@@ -410,8 +410,8 @@ export default function Home() {
             </ul>
           </nav>
 
-          <nav className="footer-nav" aria-label="Legal">
-            <h2 className="footer-nav__title">Legal</h2>
+          <nav className="footerNav" aria-label="Legal">
+            <h2 className="footerNavTitle">Legal</h2>
             <ul>
               <li>
                 <a href="/shipping">Shipping &amp; returns</a>
@@ -426,8 +426,8 @@ export default function Home() {
           </nav>
         </div>
 
-        <div className="site-footer__base">
-          <p className="site-footer__copyright">
+        <div className="siteFooterBase">
+          <p className="siteFooterCopyright">
             <small>© 2026 Mangamarketplace. All rights reserved.</small>
           </p>
         </div>
