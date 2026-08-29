@@ -16,6 +16,10 @@ export const metadata: Metadata = {
   title: "MangaMarketplace | Buy and sell the exact manga you want",
   description:
     "A community marketplace for finding, sharing, buying, and selling manga, comics, books, magazines, and collectibles.",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
