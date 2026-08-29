@@ -45,14 +45,6 @@
   object-fit: cover;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  body {
-    transition:
-      color var(--duration-normal) var(--ease-standard),
-      background-color var(--duration-normal) var(--ease-standard);
-  }
-}
-
 .cardImage {
     width: 100%;
     max-width: 100%;
@@ -67,4 +59,12 @@
     height: 100%;
     max-width: 100%;
     object-fit: contain;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition:
+      color var(--duration-normal) var(--ease-standard),
+      background-color var(--duration-normal) var(--ease-standard);
+  }
 }

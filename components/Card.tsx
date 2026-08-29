@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import styles from './SiteCard.module.css';
+import styles from './Card.module.css';
 
 type CardProps = {
   title: string
