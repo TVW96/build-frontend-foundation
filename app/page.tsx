@@ -1,5 +1,6 @@
 import Featured from "@/components/Featured";
 import Footer from "@/components/Footer";
+import Newsletter from "@/components/Newsletter";
 import Link from "next/link";
 
 export default function Home() {
@@ -115,30 +116,7 @@ export default function Home() {
         {/* ---------- Featured marketplace items ---------- */}
         <Featured />
         {/* ---------- Newsletter CTA ---------- */}
-        <section className="newsletter" aria-labelledby="newsletter-heading">
-          <h2 className="newsletterHeading" id="newsletter-heading">
-            New arrivals every week
-          </h2>
-          <p className="newsletterLede">
-            Get an email when fresh stock and restocks land. No spam,
-            unsubscribe anytime.
-          </p>
-          <form className="newsletterForm" action="/subscribe" method="post">
-            <label className="visuallyHidden" htmlFor="newsletter-email">
-              Email address
-            </label>
-            <input
-              id="newsletter-email"
-              type="email"
-              name="email"
-              placeholder="you@example.com"
-              required
-            />
-            <button className="button buttonPrimary" type="submit">
-              Subscribe
-            </button>
-          </form>
-        </section>
+        <Newsletter />
       </main>
 
       <Footer />
