@@ -35,3 +35,9 @@ The marketplace should make it easier to:
 * Connect buyers, collectors, and sellers through one organized marketplace
 
 The frontend should communicate a balance between **modern e-commerce, secondhand trading, Japanese pop culture, and collector culture** while remaining approachable to users who may simply be looking for their next book.
+
+## Account API
+
+Copy `.env.example` to `.env.local` when the backend is not available at the
+default local address. `BACKEND_API_URL` must point to the NestJS API, which is
+`http://127.0.0.1:3001` in local development.

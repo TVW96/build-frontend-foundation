@@ -1,10 +1,13 @@
 import styles from "./account.module.css";
+import Link from "next/link";
 
 export default function Login() {
   return (
     <div className={styles.loginPrompt}>
       <span>Already have an account?</span>
-      <span className={styles.loginStatus}>Sign in coming next</span>
+      <Link className={styles.loginStatus} href="/login">
+        Sign in
+      </Link>
     </div>
   );
 }

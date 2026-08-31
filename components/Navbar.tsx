@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { logout } from "@/actions/account";
+import { getCurrentAccount } from "@/lib/session";
 
 import styles from "./Navbar.module.css";
 import ThemeToggle from "./ThemeToggle";
@@ -17,7 +19,8 @@ const primaryLinks = [
   { href: "/about", label: "About" },
 ];
 
-export default function Navbar() {
+export default async function Navbar() {
+  const account = await getCurrentAccount();
   return (
     <header className={styles.navBar}>
       <a className={styles.skipLink} href="#main-content">
@@ -79,15 +82,26 @@ export default function Navbar() {
           </form>
 
           <div className={styles.accountTools}>
-            <ThemeToggle />
-
             <ul
               className={styles.checkoutList}
               aria-label="Account and checkout"
             >
               <li>
-                <Link href="/account">Account</Link>
+                {account ? (
+                  <Link href="/account">Account</Link>
+                ) : (
+                  <Link href="/login">Login / Signup</Link>
+                )}
               </li>
+              {account && (
+                <li>
+                  <form action={logout}>
+                    <button className={styles.signOutButton} type="submit">
+                      Sign out
+                    </button>
+                  </form>
+                </li>
+              )}
               <li>
                 <Link className={styles.cartLink} href="/cart">
                   <span>Cart</span>
@@ -98,6 +112,8 @@ export default function Navbar() {
               </li>
             </ul>
           </div>
+
+          <ThemeToggle />
         </div>
       </div>
     </header>

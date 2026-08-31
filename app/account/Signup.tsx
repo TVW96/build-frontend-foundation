@@ -2,6 +2,7 @@
 
 import { signup } from "@/actions/auth";
 import { initialSignupState, type SignupField } from "@/lib/definitions";
+import { COUNTRY_OPTIONS, getCountryName } from "@/lib/countries";
 import Link from "next/link";
 import { useActionState, useState } from "react";
 
@@ -39,11 +40,11 @@ export default function SignupForm() {
         <span className={styles.successMark} aria-hidden="true">
           ✓
         </span>
-        <p className={styles.formEyebrow}>Profile details complete</p>
-        <h2>Nice to meet you, {state.values?.displayName}.</h2>
+        <p className={styles.formEyebrow}>Account created</p>
+        <h2>Nice to meet you, {state.values?.fullName}.</h2>
         <p>
-          Your signup details passed validation. The final account will be
-          created when the marketplace authentication service is connected.
+          Your collector profile is ready and you are signed in on this device.
+          Start exploring, or add the first volume to your shelf.
         </p>
         <dl className={styles.accountPreview}>
           <div>
@@ -53,6 +54,10 @@ export default function SignupForm() {
           <div>
             <dt>Email</dt>
             <dd>{state.values?.email}</dd>
+          </div>
+          <div>
+            <dt>Country</dt>
+            <dd>{getCountryName(state.values?.region)}</dd>
           </div>
         </dl>
         <Link className={styles.primaryAction} href="/shop">
@@ -81,69 +86,160 @@ export default function SignupForm() {
 
       <div className={styles.fieldGrid}>
         <div className={styles.fieldGroup}>
-          <label htmlFor="displayName">Display name</label>
+          <label htmlFor="firstName">First name</label>
           <input
             aria-describedby={
-              hasError("displayName") ? "displayName-error" : undefined
+              hasError("firstName") ? "firstName-error" : undefined
             }
-            aria-invalid={hasError("displayName")}
-            autoComplete="name"
-            defaultValue={state.values?.displayName}
-            id="displayName"
-            maxLength={120}
-            name="displayName"
-            placeholder="Mika Tanaka"
+            aria-invalid={hasError("firstName")}
+            autoComplete="given-name"
+            defaultValue={state.values?.firstName}
+            id="firstName"
+            maxLength={60}
+            name="firstName"
+            placeholder="Mika"
             required
           />
-          <FieldError
-            errors={state.errors?.displayName}
-            id="displayName-error"
-          />
+          <FieldError errors={state.errors?.firstName} id="firstName-error" />
         </div>
 
         <div className={styles.fieldGroup}>
-          <label htmlFor="username">Username</label>
-          <div className={styles.prefixedInput}>
-            <span aria-hidden="true">@</span>
-            <input
-              aria-describedby={
-                hasError("username") ? "username-error" : "username-hint"
-              }
-              aria-invalid={hasError("username")}
-              autoCapitalize="none"
-              autoComplete="username"
-              defaultValue={state.values?.username}
-              id="username"
-              maxLength={50}
-              name="username"
-              placeholder="mikashelf"
-              required
-              spellCheck={false}
-            />
-          </div>
-          <p className={styles.fieldHint} id="username-hint">
-            Letters, numbers, and underscores only.
-          </p>
-          <FieldError errors={state.errors?.username} id="username-error" />
+          <label htmlFor="lastName">Last name</label>
+          <input
+            aria-describedby={
+              hasError("lastName") ? "lastName-error" : undefined
+            }
+            aria-invalid={hasError("lastName")}
+            autoComplete="family-name"
+            defaultValue={state.values?.lastName}
+            id="lastName"
+            maxLength={60}
+            name="lastName"
+            placeholder="Tanaka"
+            required
+          />
+          <FieldError errors={state.errors?.lastName} id="lastName-error" />
         </div>
       </div>
 
       <div className={styles.fieldGroup}>
-        <label htmlFor="email">Email address</label>
+        <label htmlFor="username">Username</label>
+        <div className={styles.prefixedInput}>
+          <span aria-hidden="true">@</span>
+          <input
+            aria-describedby={
+              hasError("username") ? "username-error" : "username-hint"
+            }
+            aria-invalid={hasError("username")}
+            autoCapitalize="none"
+            autoComplete="username"
+            defaultValue={state.values?.username}
+            id="username"
+            maxLength={50}
+            name="username"
+            placeholder="mikashelf"
+            required
+            spellCheck={false}
+            type="text"
+          />
+        </div>
+        <p className={styles.fieldHint} id="username-hint">
+          Letters, numbers, and underscores only.
+        </p>
+        <FieldError errors={state.errors?.username} id="username-error" />
+      </div>
+
+      <div className={styles.fieldGroup}>
+        <label htmlFor="mailingAddressLine1">Mailing address line 1</label>
         <input
-          aria-describedby={hasError("email") ? "email-error" : undefined}
-          aria-invalid={hasError("email")}
-          autoCapitalize="none"
-          autoComplete="email"
-          defaultValue={state.values?.email}
-          id="email"
-          inputMode="email"
-          name="email"
-          placeholder="mika@example.com"
+          aria-describedby={
+            hasError("mailingAddressLine1")
+              ? "mailingAddressLine1-error"
+              : undefined
+          }
+          aria-invalid={hasError("mailingAddressLine1")}
+          autoComplete="address-line1"
+          defaultValue={state.values?.mailingAddressLine1}
+          id="mailingAddressLine1"
+          maxLength={255}
+          name="mailingAddressLine1"
+          placeholder="123 Manga Lane"
           required
-          type="email"
         />
-        <FieldError errors={state.errors?.email} id="email-error" />
+        <FieldError
+          errors={state.errors?.mailingAddressLine1}
+          id="mailingAddressLine1-error"
+        />
+      </div>
+
+      <div className={styles.fieldGroup}>
+        <label htmlFor="mailingAddressLine2">
+          Mailing address line 2 <span className={styles.optional}>(optional)</span>
+        </label>
+        <input
+          aria-describedby={
+            hasError("mailingAddressLine2")
+              ? "mailingAddressLine2-error"
+              : "mailingAddressLine2-hint"
+          }
+          aria-invalid={hasError("mailingAddressLine2")}
+          autoComplete="address-line2"
+          defaultValue={state.values?.mailingAddressLine2}
+          id="mailingAddressLine2"
+          maxLength={255}
+          name="mailingAddressLine2"
+          placeholder="Apartment 4B or PO Box 488"
+        />
+        <p className={styles.fieldHint} id="mailingAddressLine2-hint">
+          Use this line for an apartment, suite, PO box, or other delivery detail.
+        </p>
+        <FieldError
+          errors={state.errors?.mailingAddressLine2}
+          id="mailingAddressLine2-error"
+        />
+      </div>
+
+      <div className={styles.fieldGrid}>
+        <div className={styles.fieldGroup}>
+          <label htmlFor="region">Country</label>
+          <select
+            aria-describedby={
+              hasError("region") ? "region-error" : "region-hint"
+            }
+            aria-invalid={hasError("region")}
+            autoComplete="country"
+            defaultValue={state.values?.region}
+            id="region"
+            name="region"
+            required
+          >
+            <option value="">Select a country</option>
+            {COUNTRY_OPTIONS.map((country) => (
+              <option key={country.code} value={country.code}>
+                {country.name}
+              </option>
+            ))}
+          </select>
+          <FieldError errors={state.errors?.region} id="region-error" />
+        </div>
+
+        <div className={styles.fieldGroup}>
+          <label htmlFor="email">Email address</label>
+          <input
+            aria-describedby={hasError("email") ? "email-error" : undefined}
+            aria-invalid={hasError("email")}
+            autoCapitalize="none"
+            autoComplete="email"
+            defaultValue={state.values?.email}
+            id="email"
+            inputMode="email"
+            name="email"
+            placeholder="mika@example.com"
+            required
+            type="email"
+          />
+          <FieldError errors={state.errors?.email} id="email-error" />
+        </div>
       </div>
 
       <div className={styles.fieldGrid}>
@@ -154,6 +250,7 @@ export default function SignupForm() {
             aria-invalid={hasError("password")}
             autoComplete="new-password"
             id="password"
+            maxLength={128}
             minLength={8}
             name="password"
             required
@@ -173,6 +270,7 @@ export default function SignupForm() {
             aria-invalid={hasError("confirmPassword")}
             autoComplete="new-password"
             id="confirmPassword"
+            maxLength={128}
             minLength={8}
             name="confirmPassword"
             required

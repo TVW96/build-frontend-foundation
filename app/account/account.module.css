@@ -249,6 +249,7 @@
 }
 
 .fieldGroup input,
+.fieldGroup select,
 .prefixedInput {
   inline-size: 100%;
   min-block-size: 3.15rem;
@@ -257,19 +258,28 @@
   border-radius: var(--sys-radius-sm);
 }
 
-.fieldGroup > input {
+.fieldGroup > input,
+.fieldGroup > select {
   padding: var(--space-3);
 }
 
 .fieldGroup input:hover,
+.fieldGroup select:hover,
 .prefixedInput:hover {
   border-color: var(--sys-color-primary);
 }
 
 .fieldGroup input[aria-invalid="true"],
+.fieldGroup select[aria-invalid="true"],
 .prefixedInput:has(input[aria-invalid="true"]) {
   border-color: var(--sys-color-text);
   box-shadow: inset 0 0 0 1px var(--sys-color-text);
+}
+
+.optional {
+  color: var(--sys-color-text-subtle);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
 }
 
 .prefixedInput {
@@ -437,7 +447,7 @@
 
 .accountPreview {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   inline-size: 100%;
   margin: var(--space-3) 0;
   border-block: 1px solid var(--sys-color-border);

@@ -147,6 +147,22 @@
   white-space: nowrap;
 }
 
+.signOutButton {
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+
+.signOutButton:hover,
+.signOutButton:focus-visible {
+  color: var(--header-accent);
+}
+
 .primaryList a:hover,
 .primaryList a:focus-visible,
 .checkoutList a:hover,
