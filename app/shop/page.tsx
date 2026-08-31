@@ -37,7 +37,6 @@ export default async function BrowsePage() {
 
   return (
     <div className={styles.page}>
-      <SiteHeader />
       <main className={styles.main} id="main-content">
         <header className={styles.hero}>
           <p className={styles.eyebrow}>Community inventory</p>
