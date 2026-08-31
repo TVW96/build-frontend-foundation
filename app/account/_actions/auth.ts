@@ -6,8 +6,8 @@ import {
   type FormState,
   type LoginFormState,
   type SignupFieldValues,
-} from "@/lib/definitions";
-import { SESSION_COOKIE_NAME } from "@/lib/session";
+} from "@/app/account/_lib/definitions";
+import { SESSION_COOKIE_NAME } from "@/app/account/_lib/session";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 

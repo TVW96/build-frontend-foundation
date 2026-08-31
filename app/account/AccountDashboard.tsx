@@ -6,13 +6,13 @@ import {
   saveAddress,
   updateBio,
   updateProfile,
-} from "@/actions/account";
+} from "@/app/account/_actions/account";
 import type {
   AccountActionResult,
   AccountAddress,
   AccountUser,
-} from "@/lib/account-types";
-import { COUNTRY_OPTIONS, getCountryName } from "@/lib/countries";
+} from "@/app/account/_lib/account-types";
+import { COUNTRY_OPTIONS, getCountryName } from "@/app/account/_lib/countries";
 import { useRouter } from "next/navigation";
 import {
   type FormEvent,
@@ -443,7 +443,7 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
       const actionResult = await deleteAccount();
       setResult(actionResult);
       if (actionResult.ok) {
-        router.push("/signup");
+        router.push("/account/signup");
         router.refresh();
       }
     });

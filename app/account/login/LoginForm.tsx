@@ -1,7 +1,10 @@
 "use client";
 
-import { login } from "@/actions/auth";
-import { initialLoginState, type LoginField } from "@/lib/definitions";
+import { login } from "@/app/account/_actions/auth";
+import {
+  initialLoginState,
+  type LoginField,
+} from "@/app/account/_lib/definitions";
 import Link from "next/link";
 import { useActionState, useState } from "react";
 
@@ -89,7 +92,7 @@ export default function LoginForm() {
       <div className={styles.fieldGroup}>
         <div className={styles.labelRow}>
           <label htmlFor="login-password">Password</label>
-          <Link href="/forgot-password">Forgot password?</Link>
+          <Link href="/account/forgot-password">Forgot password?</Link>
         </div>
         <div className={styles.passwordInput}>
           <input

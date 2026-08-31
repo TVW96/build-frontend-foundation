@@ -1,8 +1,8 @@
 "use server";
 
-import type { AccountActionResult } from "@/lib/account-types";
-import { COUNTRY_OPTIONS } from "@/lib/countries";
-import { SESSION_COOKIE_NAME } from "@/lib/session";
+import type { AccountActionResult } from "@/app/account/_lib/account-types";
+import { COUNTRY_OPTIONS } from "@/app/account/_lib/countries";
+import { SESSION_COOKIE_NAME } from "@/app/account/_lib/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -193,7 +193,7 @@ export async function logout(): Promise<never> {
   await authenticatedRequest("/users/me/session", { method: "DELETE" });
   (await cookies()).delete(SESSION_COOKIE_NAME);
   revalidatePath("/", "layout");
-  redirect("/login");
+  redirect("/account/login");
 }
 
 export async function deleteAccount(): Promise<AccountActionResult> {

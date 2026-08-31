@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { AccountUser } from "@/lib/account-types";
+import type { AccountUser } from "@/app/account/_lib/account-types";
 import { cookies } from "next/headers";
 import { cache } from "react";
 

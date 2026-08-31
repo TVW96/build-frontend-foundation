@@ -57,7 +57,8 @@ export default function LoginPage() {
           <LoginForm />
 
           <p className={styles.signupPrompt}>
-            New to MangaMarketplace? <Link href="/signup">Create an account</Link>
+            New to MangaMarketplace?{" "}
+            <Link href="/account/signup">Create an account</Link>
           </p>
         </div>
       </section>

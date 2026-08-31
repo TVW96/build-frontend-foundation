@@ -1,11 +1,13 @@
 "use client";
 
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 import styles from "./Navbar.module.css";
 
 type Theme = "light" | "dark";
 
-function getPreferredTheme(): Theme {
+const themeQuery = "(prefers-color-scheme: dark)";
+
+function getSavedTheme(): Theme | null {
   try {
     const savedTheme = localStorage.getItem("theme");
 
@@ -16,9 +18,11 @@ function getPreferredTheme(): Theme {
     // Fall through to the operating-system preference when storage is blocked.
   }
 
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  return null;
+}
+
+function getSystemTheme(mediaQuery = window.matchMedia(themeQuery)): Theme {
+  return mediaQuery.matches ? "dark" : "light";
 }
 
 function applyTheme(theme: Theme) {
@@ -26,15 +30,34 @@ function applyTheme(theme: Theme) {
 }
 
 export default function ThemeToggle() {
+  const hasManualOverride = useRef(false);
+
   useLayoutEffect(() => {
-    applyTheme(getPreferredTheme());
+    const mediaQuery = window.matchMedia(themeQuery);
+    const savedTheme = getSavedTheme();
+
+    hasManualOverride.current = savedTheme !== null;
+    applyTheme(savedTheme ?? getSystemTheme(mediaQuery));
+
+    function handleSystemThemeChange(event: MediaQueryListEvent) {
+      if (!hasManualOverride.current) {
+        applyTheme(event.matches ? "dark" : "light");
+      }
+    }
+
+    mediaQuery.addEventListener("change", handleSystemThemeChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleSystemThemeChange);
+    };
   }, []);
 
   function toggleTheme() {
     const currentTheme =
-      document.documentElement.dataset.theme ?? getPreferredTheme();
+      document.documentElement.dataset.theme ?? getSystemTheme();
     const nextTheme = currentTheme === "dark" ? "light" : "dark";
 
+    hasManualOverride.current = true;
     applyTheme(nextTheme);
 
     try {

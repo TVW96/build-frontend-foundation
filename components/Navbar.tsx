@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { logout } from "@/actions/account";
-import { getCurrentAccount } from "@/lib/session";
+import { logout } from "@/app/account/_actions/account";
+import { getCurrentAccount } from "@/app/account/_lib/session";
 
 import styles from "./Navbar.module.css";
+import NavbarMenuToggle from "./NavbarMenuToggle";
 import ThemeToggle from "./ThemeToggle";
 
 const utilityLinks = [
@@ -57,7 +58,13 @@ export default async function Navbar() {
           <span>MangaMarketplace</span>
         </Link>
 
-        <nav className={styles.primaryNav} aria-label="Primary navigation">
+        <NavbarMenuToggle />
+
+        <nav
+          className={styles.primaryNav}
+          id="primary-navigation"
+          aria-label="Primary navigation"
+        >
           <ul className={styles.primaryList}>
             {primaryLinks.map((link) => (
               <li key={link.href}>
@@ -90,7 +97,7 @@ export default async function Navbar() {
                 {account ? (
                   <Link href="/account">Account</Link>
                 ) : (
-                  <Link href="/login">Login / Signup</Link>
+                  <Link href="/account/login">Login / Signup</Link>
                 )}
               </li>
               {account && (

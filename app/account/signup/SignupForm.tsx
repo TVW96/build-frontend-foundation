@@ -1,12 +1,18 @@
 "use client";
 
-import { signup } from "@/actions/auth";
-import { initialSignupState, type SignupField } from "@/lib/definitions";
-import { COUNTRY_OPTIONS, getCountryName } from "@/lib/countries";
+import { signup } from "@/app/account/_actions/auth";
+import {
+  initialSignupState,
+  type SignupField,
+} from "@/app/account/_lib/definitions";
+import {
+  COUNTRY_OPTIONS,
+  getCountryName,
+} from "@/app/account/_lib/countries";
 import Link from "next/link";
 import { useActionState, useState } from "react";
 
-import styles from "./account.module.css";
+import styles from "./signup.module.css";
 
 type FieldErrorProps = {
   errors?: string[];

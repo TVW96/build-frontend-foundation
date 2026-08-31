@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import Login from "../account/Login";
-import SignupForm from "../account/Signup";
-import styles from "../account/account.module.css";
+import LoginPrompt from "./LoginPrompt";
+import SignupForm from "./SignupForm";
+import styles from "./signup.module.css";
 
 export const metadata: Metadata = {
   title: "Create your account | MangaMarketplace",
@@ -67,7 +67,7 @@ export default function SignupPage() {
       <section className={styles.formRegion} aria-labelledby="signup-heading">
         <div className={styles.formCard}>
           <SignupForm />
-          <Login />
+          <LoginPrompt />
         </div>
       </section>
     </main>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { getCurrentAccount } from "@/lib/session";
+import { getCurrentAccount } from "@/app/account/_lib/session";
 import AccountDashboard from "./AccountDashboard";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function AccountPage() {
   const account = await getCurrentAccount();
 
-  if (!account) redirect("/login");
+  if (!account) redirect("/account/login");
 
   return <AccountDashboard account={account} />;
 }
