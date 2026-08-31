@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-
-import SiteHeader from "@/components/SiteHeader";
 import { getBrowseInventory } from "@/lib/marketplace-api";
 
 import BrowseInventory from "./BrowseInventory";
@@ -22,7 +20,6 @@ export default async function BrowsePage() {
   if (!browseInventory) {
     return (
       <div className={styles.page}>
-        <SiteHeader />
         <main className={styles.main} id="main-content">
           <section className={styles.empty} aria-labelledby="api-error-heading">
             <p className={styles.eyebrow}>Connection issue</p>
