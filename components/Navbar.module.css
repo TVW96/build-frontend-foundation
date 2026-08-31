@@ -244,7 +244,7 @@
 
 .shoppingTools {
   display: grid;
-  grid-template-columns: minmax(12rem, 1fr) auto auto;
+  grid-template-columns: minmax(12rem, 1fr) auto;
   align-items: center;
   gap: var(--space-3);
   min-inline-size: 0;
@@ -322,55 +322,6 @@
   .shoppingTools {
     grid-column: 1 / -1;
   }
-}
-
-.themeToggle {
-  display: inline-grid;
-  place-items: center;
-  flex: 0 0 auto;
-  inline-size: 2.65rem;
-  block-size: 2.65rem;
-  padding-block: var(--space-2);
-  padding-inline: var(--space-2);
-  color: var(--header-ink);
-  background: transparent;
-  border: 1px solid var(--header-line);
-  border-radius: var(--sys-radius-full);
-  cursor: pointer;
-}
-
-.themeToggle:hover,
-.themeToggle:focus-visible {
-  color: var(--header-accent);
-  border-color: var(--header-accent);
-}
-
-.themeToggle:focus-visible {
-  outline: 0.18rem solid var(--header-accent);
-  outline-offset: 0.16rem;
-}
-
-.themeToggle svg {
-  grid-area: 1 / 1;
-  inline-size: 1.2rem;
-  block-size: 1.2rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.8;
-}
-
-.sunIcon {
-  display: none;
-}
-
-:global(:root[data-theme="dark"]) .moonIcon {
-  display: none;
-}
-
-:global(:root[data-theme="dark"]) .sunIcon {
-  display: block;
 }
 
 .cartLink {
@@ -470,14 +421,8 @@
   }
 
   .search input,
-  .search button,
-  .themeToggle {
+  .search button {
     min-block-size: 2.75rem;
-  }
-
-  .themeToggle {
-    inline-size: 2.75rem;
-    block-size: 2.75rem;
   }
 
   .accountTools {

@@ -1,4 +1,5 @@
 import Featured from "@/components/Featured";
+import Footer from "@/components/Footer";
 import Link from "next/link";
 
 export default function Home() {
@@ -140,61 +141,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* ==================== SITE FOOTER ==================== */}
-      <footer className="siteFooter">
-        <div className="siteFooterInner">
-          <nav className="footerNav" aria-label="Shop">
-            <h2 className="footerNavTitle">Shop</h2>
-            <ul>
-              <li>
-                <a href="/shop">All manga</a>
-              </li>
-              <li>
-                <a href="/shop?condition=new">Mint Condition</a>
-              </li>
-              <li>
-                <a href="/shop?condition=used">Like New</a>
-              </li>
-            </ul>
-          </nav>
-
-          <nav className="footerNav" aria-label="Company">
-            <h2 className="footerNavTitle">Company</h2>
-            <ul>
-              <li>
-                <a href="/about">About</a>
-              </li>
-              <li>
-                <a href="/sell">Sell your manga</a>
-              </li>
-              <li>
-                <a href="/contact">Contact</a>
-              </li>
-            </ul>
-          </nav>
-
-          <nav className="footerNav" aria-label="Legal">
-            <h2 className="footerNavTitle">Legal</h2>
-            <ul>
-              <li>
-                <a href="/shipping">Shipping &amp; returns</a>
-              </li>
-              <li>
-                <a href="/terms">Terms</a>
-              </li>
-              <li>
-                <a href="/privacy">Privacy</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <div className="siteFooterBase">
-          <p className="siteFooterCopyright">
-            <small>© 2026 Mangamarketplace. All rights reserved.</small>
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { getCurrentAccount } from "@/app/account/_lib/session";
 
 import styles from "./Navbar.module.css";
 import NavbarMenuToggle from "./NavbarMenuToggle";
-import ThemeToggle from "./ThemeToggle";
 
 const utilityLinks = [
   { href: "/help", label: "Help center" },
@@ -23,7 +22,7 @@ const primaryLinks = [
 export default async function Navbar() {
   const account = await getCurrentAccount();
   return (
-    <header className={styles.navBar}>
+    <header className={styles.navBar} data-site-navbar>
       <a className={styles.skipLink} href="#main-content">
         Skip to main content
       </a>
@@ -119,8 +118,6 @@ export default async function Navbar() {
               </li>
             </ul>
           </div>
-
-          <ThemeToggle />
         </div>
       </div>
     </header>
