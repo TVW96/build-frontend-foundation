@@ -101,6 +101,18 @@
   white-space: nowrap;
 }
 
+@media (min-width: 56.0625rem) {
+  .newsletter {
+    padding-block: clamp(1rem, 2.4vh, 1.5rem);
+  }
+}
+
+@media (min-width: 56.0625rem) and (max-height: 50rem) {
+  .newsletter {
+    padding-block: 0.75rem;
+  }
+}
+
 @media (max-width: 56rem) {
   .newsletter {
     grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.9fr);

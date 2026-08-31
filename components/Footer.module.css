@@ -69,13 +69,19 @@
 
 .brandColumn::after {
   z-index: 1;
-  background: linear-gradient(
-    90deg,
-    color-mix(in oklch, var(--sys-color-surface) 96%, transparent) 0%,
-    color-mix(in oklch, var(--sys-color-surface) 82%, transparent) 62%,
-    color-mix(in oklch, var(--sys-color-surface) 50%, transparent) 100%
-  );
-  box-shadow: 0 12px 0 transparent;
+  background:
+    linear-gradient(
+      180deg,
+      var(--sys-color-canvas) 0%,
+      color-mix(in oklch, var(--sys-color-canvas) 90%, transparent) 20%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--sys-color-surface) 96%, transparent) 0%,
+      color-mix(in oklch, var(--sys-color-surface) 50%, transparent) 100%
+    );
+  box-shadow: 0 12px 0 rgba(255, 255, 255, 0.9);
   transition:
     background-color 500ms var(--footer-motion-ease),
     box-shadow 500ms var(--footer-motion-ease);
@@ -347,11 +353,18 @@
 }
 
 :global(:root[data-theme="dark"]) .brandColumn::after {
-  background: linear-gradient(
-    90deg,
-    color-mix(in oklch, var(--sys-color-canvas) 68%, transparent) 0%,
-    color-mix(in oklch, var(--sys-color-canvas) 86%, transparent) 100%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      var(--sys-color-canvas) 0%,
+      color-mix(in oklch, var(--sys-color-canvas) 68%, transparent) 20%,
+      transparent 52%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--sys-color-canvas) 96%, transparent) 0%,
+      color-mix(in oklch, var(--sys-color-canvas) 50%, transparent) 100%
+    );
   box-shadow: 0 12px 0 rgba(255, 255, 255, 0.9);
 }
 

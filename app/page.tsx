@@ -91,7 +91,6 @@ export default function Home() {
               </dl>
             </aside>
           </div>
-
           <div
             className="communityHeroPaths"
             aria-label="How the marketplace helps"
@@ -113,12 +112,12 @@ export default function Home() {
             </Link>
           </div>
         </header>
-        {/* ---------- Featured marketplace items ---------- */}
-        <Featured />
         {/* ---------- Newsletter CTA ---------- */}
         <Newsletter />
+        {/* ---------- Featured marketplace items ---------- */}
+        <Featured />
       </main>
-
+      {/* ---------- Footer ---------- */}
       <Footer />
     </div>
   );

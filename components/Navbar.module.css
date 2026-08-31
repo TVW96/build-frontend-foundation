@@ -141,7 +141,7 @@
 }
 
 .primaryList {
-  justify-content: center;
+  justify-content: space-between;
   gap: var(--space-2) var(--header-nav-item-gap);
 }
 
@@ -256,6 +256,7 @@
   align-items: stretch;
   flex: 1 1 12rem;
   min-inline-size: 0;
+  inline-size: 100%;
   max-inline-size: 100%;
 }
 
@@ -314,7 +315,40 @@
   max-inline-size: 100%;
 }
 
-@media (max-width: 72rem) {
+@media (min-width: 80.0625rem) {
+  .navBar {
+    --header-nav-item-gap: var(--space-2);
+  }
+
+  .mainNavBar {
+    grid-template-columns:
+      auto minmax(20rem, 1fr) minmax(14rem, 18rem) auto;
+    column-gap: var(--space-4);
+    padding-block: var(--space-3);
+  }
+
+  .shoppingTools {
+    display: contents;
+  }
+
+  .primaryList,
+  .checkoutList {
+    flex-wrap: nowrap;
+  }
+
+  .primaryList a,
+  .checkoutList a,
+  .signOutButton {
+    padding-inline: 0;
+    font-size: var(--font-size-xs);
+  }
+
+  .checkoutList {
+    column-gap: var(--space-3);
+  }
+}
+
+@media (max-width: 80rem) {
   .mainNavBar {
     grid-template-columns: auto minmax(20rem, 1fr);
   }

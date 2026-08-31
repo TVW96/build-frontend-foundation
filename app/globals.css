@@ -755,6 +755,93 @@ body {
   font-size: var(--font-size-xs);
 }
 
+/* Keep the complete marketplace introduction visible as one desktop fold.
+   Viewport-relative limits preserve the spacious treatment on tall screens
+   while reclaiming vertical space from headings, gaps, and the shelf graphic
+   when height is constrained. */
+@media (min-width: 56.0625rem) {
+  .communityHeroGrid {
+    padding-block: clamp(1.5rem, 3vh, 3rem);
+  }
+
+  .communityHeroEyebrow {
+    margin-block-end: clamp(0.75rem, 1.8vh, 1.5rem);
+  }
+
+  .communityHeroHeading {
+    font-size: clamp(3rem, min(4.6vw, 7.2vh), 4.5rem);
+  }
+
+  .communityHeroLede,
+  .communityHeroActions {
+    margin-block-start: clamp(1rem, 2.6vh, 2rem);
+  }
+
+  .communityHeroAssurances {
+    margin-block-start: clamp(0.75rem, 2vh, 1.5rem);
+  }
+
+  .shelfFinder {
+    padding: clamp(1rem, 2.6vh, 1.5rem);
+  }
+
+  .shelfFinder h2 {
+    margin-block-start: clamp(1rem, 2.8vh, 2rem);
+    margin-block-end: clamp(0.5rem, 1.4vh, 1rem);
+    font-size: clamp(1.75rem, min(2.3vw, 4vh), 2.5rem);
+  }
+
+  .volumeRun {
+    margin-block: clamp(1rem, 2.8vh, 2rem);
+  }
+
+  .volumeRun span {
+    min-block-size: clamp(4.5rem, 13vh, 7rem);
+  }
+
+  .volumeRun span:nth-child(even) {
+    min-block-size: clamp(5rem, 14vh, 7.5rem);
+  }
+
+  .communityHeroPaths a {
+    padding-block: clamp(0.75rem, 2vh, 1.25rem);
+  }
+}
+
+@media (min-width: 56.0625rem) and (max-height: 50rem) {
+  .communityHeroGrid {
+    padding-block: 0.75rem;
+  }
+
+  .communityHeroLede,
+  .communityHeroActions,
+  .communityHeroAssurances {
+    margin-block-start: 0.75rem;
+  }
+
+  .communityHeroEyebrow {
+    margin-block: 0 0.75rem;
+  }
+
+  .communityHeroHeading {
+    font-size: 3rem;
+  }
+
+  .communityHeroLede {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .heroButton {
+    min-block-size: 2.75rem;
+    padding-block: var(--space-2);
+  }
+
+  .communityHeroPaths a {
+    padding-block: 0.5rem;
+  }
+}
+
 @media (max-width: 56rem) {
   .communityHeroGrid {
     grid-template-columns: 1fr;
