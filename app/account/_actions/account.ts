@@ -21,12 +21,15 @@ const ProfileSchema = z.object({
   region: z.string().refine((value) => countryCodes.has(value), {
     message: "Select a country.",
   }),
-  avatarUrl: z
-    .union([z.literal(""), z.url("Enter a complete http or https image URL.")])
-    .refine((value) => !value || /^https?:\/\//i.test(value), {
-      message: "Avatar URL must begin with http or https.",
-    }),
 });
+
+const AVATAR_MAX_BYTES = 2 * 1024 * 1024;
+const AVATAR_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+]);
 
 const AddressSchema = z.object({
   addressId: z.string().optional(),
@@ -55,13 +58,15 @@ async function authenticatedRequest(
 
   const backendUrl = process.env.BACKEND_API_URL ?? "http://127.0.0.1:3001";
   try {
+    const headers = new Headers(init.headers);
+    headers.set("Authorization", `Bearer ${token}`);
+    if (!(init.body instanceof FormData) && !headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
+    }
+
     return await fetch(`${backendUrl}${path}`, {
       ...init,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        ...init.headers,
-      },
+      headers,
       cache: "no-store",
       signal: AbortSignal.timeout(10_000),
     });
@@ -100,7 +105,6 @@ export async function updateProfile(
     fullName: formData.get("fullName"),
     username: formData.get("username"),
     region: formData.get("region"),
-    avatarUrl: formData.get("avatarUrl"),
   });
 
   if (!validation.success) {
@@ -113,13 +117,44 @@ export async function updateProfile(
 
   const response = await authenticatedRequest("/users/me", {
     method: "PATCH",
-    body: JSON.stringify({
-      ...validation.data,
-      avatarUrl: validation.data.avatarUrl || null,
-    }),
+    body: JSON.stringify(validation.data),
   });
 
   return resultFromResponse(response, "Profile updated.");
+}
+
+export async function uploadAvatar(
+  formData: FormData,
+): Promise<AccountActionResult> {
+  const avatar = formData.get("avatar");
+  if (!(avatar instanceof File) || avatar.size === 0) {
+    return { ok: false, message: "Choose an image to upload." };
+  }
+  if (!AVATAR_TYPES.has(avatar.type)) {
+    return {
+      ok: false,
+      message: "Use a JPEG, PNG, WebP, or AVIF image.",
+    };
+  }
+  if (avatar.size > AVATAR_MAX_BYTES) {
+    return { ok: false, message: "Avatar images must be 2 MB or smaller." };
+  }
+
+  const upload = new FormData();
+  upload.set("avatar", avatar, avatar.name);
+  const response = await authenticatedRequest("/users/me/avatar", {
+    method: "POST",
+    body: upload,
+  });
+
+  return resultFromResponse(response, "Profile photo updated.");
+}
+
+export async function removeAvatar(): Promise<AccountActionResult> {
+  const response = await authenticatedRequest("/users/me/avatar", {
+    method: "DELETE",
+  });
+  return resultFromResponse(response, "Profile photo removed.");
 }
 
 export async function updateBio(

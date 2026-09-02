@@ -3,9 +3,11 @@
 import {
   deleteAccount,
   deleteAddress,
+  removeAvatar,
   saveAddress,
   updateBio,
   updateProfile,
+  uploadAvatar,
 } from "@/app/account/_actions/account";
 import type {
   AccountActionResult,
@@ -15,8 +17,11 @@ import type {
 import { COUNTRY_OPTIONS, getCountryName } from "@/app/account/_lib/countries";
 import { useRouter } from "next/navigation";
 import {
+  type ChangeEvent,
   type FormEvent,
+  type PointerEvent as ReactPointerEvent,
   useEffect,
+  useRef,
   useState,
   useTransition,
 } from "react";
@@ -25,6 +30,7 @@ import styles from "./profile.module.css";
 
 type ModalState =
   | { kind: "profile" }
+  | { kind: "avatar" }
   | { kind: "address"; address?: AccountAddress }
   | { kind: "delete-address"; address: AccountAddress }
   | { kind: "delete-account" }
@@ -38,11 +44,338 @@ type ModalProps = {
   onClose: () => void;
   onDeleteAccount: () => void;
   onDeleteAddress: (addressId: string) => void;
+  onRemoveAvatar: () => void;
+  onUploadAvatar: (file: File) => void;
   onSubmit: (
     event: FormEvent<HTMLFormElement>,
     action: (formData: FormData) => Promise<AccountActionResult>,
   ) => void;
 };
+
+const AVATAR_OUTPUT_SIZE = 512;
+const AVATAR_MAX_BYTES = 2 * 1024 * 1024;
+const AVATAR_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+]);
+
+type CropPosition = { x: number; y: number };
+
+function clamp(value: number, minimum: number, maximum: number) {
+  return Math.min(maximum, Math.max(minimum, value));
+}
+
+function getCropMetrics(image: HTMLImageElement, zoom: number) {
+  const coverScale = Math.max(
+    AVATAR_OUTPUT_SIZE / image.naturalWidth,
+    AVATAR_OUTPUT_SIZE / image.naturalHeight,
+  );
+  const scale = coverScale * zoom;
+  const width = image.naturalWidth * scale;
+  const height = image.naturalHeight * scale;
+
+  return {
+    height,
+    maxX: Math.max(0, (width - AVATAR_OUTPUT_SIZE) / 2),
+    maxY: Math.max(0, (height - AVATAR_OUTPUT_SIZE) / 2),
+    width,
+  };
+}
+
+function drawAvatarCrop(
+  canvas: HTMLCanvasElement,
+  image: HTMLImageElement,
+  zoom: number,
+  position: CropPosition,
+) {
+  const context = canvas.getContext("2d");
+  if (!context) return;
+
+  const { height, maxX, maxY, width } = getCropMetrics(image, zoom);
+  const x = (AVATAR_OUTPUT_SIZE - width) / 2 + maxX * (position.x / 100);
+  const y = (AVATAR_OUTPUT_SIZE - height) / 2 + maxY * (position.y / 100);
+
+  context.clearRect(0, 0, AVATAR_OUTPUT_SIZE, AVATAR_OUTPUT_SIZE);
+  context.drawImage(image, x, y, width, height);
+}
+
+function AvatarEditor({
+  account,
+  busy,
+  onClose,
+  onRemoveAvatar,
+  onUploadAvatar,
+}: {
+  account: AccountUser;
+  busy: boolean;
+  onClose: () => void;
+  onRemoveAvatar: () => void;
+  onUploadAvatar: (file: File) => void;
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const dragRef = useRef<{
+    pointerId: number;
+    startClientX: number;
+    startClientY: number;
+    startPosition: CropPosition;
+  } | null>(null);
+  const [source, setSource] = useState<{ file: File; url: string } | null>(null);
+  const [imageReady, setImageReady] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [position, setPosition] = useState<CropPosition>({ x: 0, y: 0 });
+  const [localError, setLocalError] = useState<string | null>(null);
+  const initials = account.fullName
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  useEffect(() => {
+    if (!source) return;
+    let cancelled = false;
+    const image = new Image();
+
+    image.onload = () => {
+      if (cancelled) return;
+      imageRef.current = image;
+      setImageReady(true);
+    };
+    image.onerror = () => {
+      if (!cancelled) setLocalError("This image could not be opened.");
+    };
+    image.src = source.url;
+
+    return () => {
+      cancelled = true;
+      imageRef.current = null;
+      URL.revokeObjectURL(source.url);
+    };
+  }, [source]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const image = imageRef.current;
+    if (canvas && image && imageReady) {
+      drawAvatarCrop(canvas, image, zoom, position);
+    }
+  }, [imageReady, position, zoom]);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.currentTarget.files?.[0];
+    if (!file) return;
+
+    if (!AVATAR_TYPES.has(file.type)) {
+      setLocalError("Choose a JPEG, PNG, WebP, or AVIF image.");
+      event.currentTarget.value = "";
+      return;
+    }
+    if (file.size > AVATAR_MAX_BYTES) {
+      setLocalError("Choose an image smaller than 2 MB.");
+      event.currentTarget.value = "";
+      return;
+    }
+
+    setLocalError(null);
+    setImageReady(false);
+    setZoom(1);
+    setPosition({ x: 0, y: 0 });
+    setSource({ file, url: URL.createObjectURL(file) });
+  };
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    if (!imageReady) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startClientX: event.clientX,
+      startClientY: event.clientY,
+      startPosition: position,
+    };
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    const drag = dragRef.current;
+    const image = imageRef.current;
+    if (!drag || !image || drag.pointerId !== event.pointerId) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const { maxX, maxY } = getCropMetrics(image, zoom);
+    const canvasDeltaX =
+      (event.clientX - drag.startClientX) * (AVATAR_OUTPUT_SIZE / rect.width);
+    const canvasDeltaY =
+      (event.clientY - drag.startClientY) * (AVATAR_OUTPUT_SIZE / rect.height);
+
+    setPosition({
+      x: maxX
+        ? clamp(drag.startPosition.x + (canvasDeltaX / maxX) * 100, -100, 100)
+        : 0,
+      y: maxY
+        ? clamp(drag.startPosition.y + (canvasDeltaY / maxY) * 100, -100, 100)
+        : 0,
+    });
+  };
+
+  const handlePointerEnd = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    if (dragRef.current?.pointerId === event.pointerId) {
+      dragRef.current = null;
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    }
+  };
+
+  const handleUpload = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const canvas = canvasRef.current;
+    if (!source || !canvas || !imageReady) {
+      setLocalError("Choose a photo before saving your avatar.");
+      return;
+    }
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob(resolve, "image/jpeg", 0.9);
+    });
+    if (!blob) {
+      setLocalError("The cropped avatar could not be prepared.");
+      return;
+    }
+
+    onUploadAvatar(
+      new File([blob], "avatar.jpg", {
+        lastModified: Date.now(),
+        type: "image/jpeg",
+      }),
+    );
+  };
+
+  return (
+    <form className={styles.avatarForm} onSubmit={handleUpload}>
+      {source ? (
+        <div className={styles.avatarCropWorkspace}>
+          <canvas
+            aria-label="Avatar crop preview. Drag the image to reposition it."
+            className={styles.avatarCropCanvas}
+            height={AVATAR_OUTPUT_SIZE}
+            onPointerCancel={handlePointerEnd}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerEnd}
+            ref={canvasRef}
+            role="img"
+            width={AVATAR_OUTPUT_SIZE}
+          />
+          <p className={styles.cropHint}>Drag the photo to reposition it.</p>
+          <div className={styles.cropControls}>
+            <label htmlFor="avatar-zoom">Zoom</label>
+            <input
+              disabled={!imageReady || busy}
+              id="avatar-zoom"
+              max="3"
+              min="1"
+              onChange={(event) => setZoom(Number(event.target.value))}
+              step="0.01"
+              type="range"
+              value={zoom}
+            />
+            <label htmlFor="avatar-position-x">Horizontal position</label>
+            <input
+              disabled={!imageReady || busy}
+              id="avatar-position-x"
+              max="100"
+              min="-100"
+              onChange={(event) =>
+                setPosition((current) => ({
+                  ...current,
+                  x: Number(event.target.value),
+                }))
+              }
+              type="range"
+              value={position.x}
+            />
+            <label htmlFor="avatar-position-y">Vertical position</label>
+            <input
+              disabled={!imageReady || busy}
+              id="avatar-position-y"
+              max="100"
+              min="-100"
+              onChange={(event) =>
+                setPosition((current) => ({
+                  ...current,
+                  y: Number(event.target.value),
+                }))
+              }
+              type="range"
+              value={position.y}
+            />
+          </div>
+        </div>
+      ) : (
+        <div
+          aria-hidden="true"
+          className={styles.avatarModalPreview}
+          style={
+            account.avatarUrl
+              ? { backgroundImage: `url(${JSON.stringify(account.avatarUrl)})` }
+              : undefined
+          }
+        >
+          {!account.avatarUrl && initials}
+        </div>
+      )}
+
+      <div className={styles.fieldGroup}>
+        <label htmlFor="profile-avatar-file">
+          {source ? "Choose a different photo" : "Choose a profile photo"}
+        </label>
+        <input
+          accept="image/jpeg,image/png,image/webp,image/avif"
+          disabled={busy}
+          id="profile-avatar-file"
+          onChange={handleFileChange}
+          type="file"
+        />
+        <p className={styles.fieldHint}>
+          JPEG, PNG, WebP, or AVIF. Maximum file size: 2 MB. Your saved avatar
+          will be a 512 × 512 JPEG.
+        </p>
+        {localError && (
+          <p className={styles.inlineError} role="alert">
+            {localError}
+          </p>
+        )}
+      </div>
+
+      <div className={styles.avatarModalActions}>
+        {account.avatarUrl && (
+          <button
+            className={styles.removeAvatarButton}
+            disabled={busy}
+            onClick={onRemoveAvatar}
+            type="button"
+          >
+            {busy ? "Removing…" : "Remove current photo"}
+          </button>
+        )}
+        <div className={styles.modalActions}>
+          <button disabled={busy} onClick={onClose} type="button">
+            Cancel
+          </button>
+          <button
+            className={styles.saveButton}
+            disabled={busy || !source || !imageReady}
+            type="submit"
+          >
+            {busy ? "Saving…" : "Save new avatar"}
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+}
 
 function FieldErrors({ errors }: { errors?: string[] }) {
   if (!errors?.length) return null;
@@ -63,6 +396,8 @@ function AccountModal({
   onClose,
   onDeleteAccount,
   onDeleteAddress,
+  onRemoveAvatar,
+  onUploadAvatar,
   onSubmit,
 }: ModalProps) {
   useEffect(() => {
@@ -75,16 +410,13 @@ function AccountModal({
 
   const isDestructive =
     modal.kind === "delete-address" || modal.kind === "delete-account";
-  const title =
-    modal.kind === "profile"
-      ? "Edit profile"
-      : modal.kind === "address"
-        ? modal.address
-          ? "Edit mailing address"
-          : "Add mailing address"
-        : modal.kind === "delete-address"
-          ? "Remove this address?"
-          : "Delete your account?";
+  let title = "Delete your account?";
+  if (modal.kind === "profile") title = "Edit profile";
+  if (modal.kind === "avatar") title = "Update profile photo";
+  if (modal.kind === "address") {
+    title = modal.address ? "Edit mailing address" : "Add mailing address";
+  }
+  if (modal.kind === "delete-address") title = "Remove this address?";
 
   return (
     <div className={styles.modalBackdrop} role="presentation">
@@ -96,7 +428,13 @@ function AccountModal({
       >
         <header className={styles.modalHeader}>
           <div>
-            <p>{isDestructive ? "Please confirm" : "Account details"}</p>
+            <p>
+              {isDestructive
+                ? "Please confirm"
+                : modal.kind === "avatar"
+                  ? "Profile image"
+                  : "Account details"}
+            </p>
             <h2 id="account-modal-title">{title}</h2>
           </div>
           <button
@@ -165,24 +503,18 @@ function AccountModal({
               </select>
               <FieldErrors errors={result?.errors?.region} />
             </div>
-            <div className={styles.fieldGroup}>
-              <label htmlFor="profile-avatar">Avatar image URL</label>
-              <input
-                defaultValue={account.avatarUrl ?? ""}
-                id="profile-avatar"
-                inputMode="url"
-                maxLength={2048}
-                name="avatarUrl"
-                placeholder="https://example.com/avatar.jpg"
-                type="url"
-              />
-              <p className={styles.fieldHint}>
-                Leave blank to use your initials.
-              </p>
-              <FieldErrors errors={result?.errors?.avatarUrl} />
-            </div>
             <ModalActions busy={busy} onClose={onClose} saveLabel="Save profile" />
           </form>
+        )}
+
+        {modal.kind === "avatar" && (
+          <AvatarEditor
+            account={account}
+            busy={busy}
+            onClose={onClose}
+            onRemoveAvatar={onRemoveAvatar}
+            onUploadAvatar={onUploadAvatar}
+          />
         )}
 
         {modal.kind === "address" && (
@@ -449,21 +781,56 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
     });
   };
 
+  const handleRemoveAvatar = () => {
+    startTransition(async () => {
+      const actionResult = await removeAvatar();
+      setResult(actionResult);
+      if (actionResult.ok) {
+        setModal(null);
+        router.refresh();
+      }
+    });
+  };
+
+  const handleUploadAvatar = (file: File) => {
+    const formData = new FormData();
+    formData.set("avatar", file);
+
+    startTransition(async () => {
+      const actionResult = await uploadAvatar(formData);
+      setResult(actionResult);
+      if (actionResult.ok) {
+        setModal(null);
+        router.refresh();
+      }
+    });
+  };
+
   return (
     <main className={styles.accountPage} id="main-content">
       <header className={styles.accountHero}>
         <div className={styles.heroInner}>
-          <div
-            aria-label={`${account.fullName}'s avatar`}
-            className={styles.avatar}
-            style={
-              account.avatarUrl
-                ? { backgroundImage: `url(${JSON.stringify(account.avatarUrl)})` }
-                : undefined
-            }
+          <button
+            aria-label="Change profile photo"
+            className={styles.avatarButton}
+            onClick={() => openModal({ kind: "avatar" })}
+            type="button"
           >
-            {!account.avatarUrl && initials}
-          </div>
+            <span
+              className={styles.avatar}
+              style={
+                account.avatarUrl
+                  ? { backgroundImage: `url(${JSON.stringify(account.avatarUrl)})` }
+                  : undefined
+              }
+            >
+              {!account.avatarUrl && initials}
+            </span>
+            <span className={styles.avatarEditOverlay}>
+              <span aria-hidden="true">✎</span>
+              <span className={styles.visuallyHidden}>Change profile photo</span>
+            </span>
+          </button>
           <div className={styles.identity}>
             <p>Collector profile</p>
             <h1>{account.fullName}</h1>
@@ -687,7 +1054,9 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
           onClose={() => setModal(null)}
           onDeleteAccount={handleDeleteAccount}
           onDeleteAddress={handleDeleteAddress}
+          onRemoveAvatar={handleRemoveAvatar}
           onSubmit={handleSubmit}
+          onUploadAvatar={handleUploadAvatar}
           result={result}
         />
       )}
