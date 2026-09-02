@@ -39,5 +39,14 @@ The frontend should communicate a balance between **modern e-commerce, secondhan
 ## Account API
 
 Copy `.env.example` to `.env.local` when the backend is not available at the
-default local address. `BACKEND_API_URL` must point to the NestJS API, which is
-`http://127.0.0.1:3001` in local development.
+default local address. `NEXT_PUBLIC_BACKEND_API_URL` must point to the NestJS
+API, which is `http://127.0.0.1:3001` in local development.
+
+## GitHub Pages deployment
+
+The Pages workflow creates a static export in `out` and deploys it whenever
+`main` changes. In the repository's **Settings → Secrets and variables →
+Actions → Variables**, add `NEXT_PUBLIC_BACKEND_API_URL` with the public HTTPS
+URL of the deployed API. The API must also include the GitHub Pages site origin
+in its `CORS_ORIGINS` setting. GitHub Pages hosts only the frontend files; it
+does not run the NestJS backend.

@@ -1,6 +1,14 @@
+"use client";
+
 import Link from "next/link";
-import { logout } from "@/app/account/_actions/account";
-import { getCurrentAccount } from "@/app/account/_lib/session";
+import {
+  AUTH_CHANGE_EVENT,
+  getCurrentAccount,
+  logout,
+} from "@/app/account/_lib/client-api";
+import type { AccountUser } from "@/app/account/_lib/account-types";
+import { useRouter } from "next/navigation";
+import { type FormEvent, useEffect, useState } from "react";
 
 import styles from "./Navbar.module.css";
 import NavbarMenuToggle from "./NavbarMenuToggle";
@@ -19,8 +27,33 @@ const primaryLinks = [
   { href: "/about", label: "About" },
 ];
 
-export default async function Navbar() {
-  const account = await getCurrentAccount();
+export default function Navbar() {
+  const router = useRouter();
+  const [account, setAccount] = useState<AccountUser | null>(null);
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+  useEffect(() => {
+    let active = true;
+    const refreshAccount = () => {
+      getCurrentAccount().then((currentAccount) => {
+        if (active) setAccount(currentAccount);
+      });
+    };
+    refreshAccount();
+    window.addEventListener(AUTH_CHANGE_EVENT, refreshAccount);
+    return () => {
+      active = false;
+      window.removeEventListener(AUTH_CHANGE_EVENT, refreshAccount);
+    };
+  }, []);
+
+  const handleLogout = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await logout();
+    setAccount(null);
+    router.push("/account/login");
+  };
+
   return (
     <header className={styles.navBar} data-site-navbar>
       <a className={styles.skipLink} href="#main-content">
@@ -74,7 +107,11 @@ export default async function Navbar() {
         </nav>
 
         <div className={styles.shoppingTools}>
-          <form className={styles.search} role="search" action="/search">
+          <form
+            action={`${basePath}/search`}
+            className={styles.search}
+            role="search"
+          >
             <label className={styles.visuallyHidden} htmlFor="header-search">
               Search by title, series, ISBN, or seller
             </label>
@@ -101,7 +138,7 @@ export default async function Navbar() {
               </li>
               {account && (
                 <li>
-                  <form action={logout}>
+                  <form onSubmit={handleLogout}>
                     <button className={styles.signOutButton} type="submit">
                       Sign out
                     </button>

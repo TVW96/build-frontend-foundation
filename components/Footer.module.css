@@ -56,7 +56,7 @@
 
 .brandColumn::before {
   z-index: 0;
-  background: url("/one-piece-manga.jpeg") center / cover no-repeat;
+  background: var(--footer-brand-art) center / cover no-repeat;
   filter: grayscale(1) contrast(1.06);
   opacity: 0.22;
   scale: 1;

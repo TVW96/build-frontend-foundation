@@ -11,6 +11,10 @@
 :root {
   color-scheme: light dark;
 
+  /* Keep production builds independent of third-party font downloads. */
+  --font-geist-sans: "Avenir Next", "Segoe UI", sans-serif;
+  --font-geist-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
   /* Strict brand palette: achromatic surfaces, evergreen accents, and a
      crimson logo. */
   --ref-color-paper-0: oklch(100% 0 0);

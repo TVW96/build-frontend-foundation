@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/app/account/_actions/auth";
+import { login } from "@/app/account/_lib/client-api";
 import {
   initialLoginState,
   type LoginField,

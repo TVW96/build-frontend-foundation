@@ -1,6 +1,6 @@
 "use client";
 
-import { signup } from "@/app/account/_actions/auth";
+import { signup } from "@/app/account/_lib/client-api";
 import {
   initialSignupState,
   type SignupField,

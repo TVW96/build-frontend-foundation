@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 import styles from "./Footer.module.css";
 
@@ -23,10 +24,15 @@ const footerNavigation = [
 ] as const;
 
 export default function Footer() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const brandArtStyle = {
+    "--footer-brand-art": `url("${basePath}/one-piece-manga.jpeg")`,
+  } as CSSProperties;
+
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <div className={styles.brandColumn}>
+        <div className={styles.brandColumn} style={brandArtStyle}>
           <div className={styles.brandStage}>
             <Link
               className={styles.brand}

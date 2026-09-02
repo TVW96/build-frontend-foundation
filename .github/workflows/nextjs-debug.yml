@@ -1,18 +1,14 @@
 name: Next.js build + diagnostics (npm)
 
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: frontend-diagnostics-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-and-diagnose:
@@ -24,7 +20,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: npm
 
       - name: Show environment
         run: |
@@ -43,7 +40,7 @@ jobs:
           if [ -d "app" ]; then
             echo "::warning ::Found 'app/' directory (App Router) — may use server-only features."
           fi
-          if grep -R --line-number --no-messages "use server" . || true; then
+          if grep -R --line-number --no-messages --include='*.ts' --include='*.tsx' "use server" app components lib || true; then
             echo "::warning ::Found 'use server' in repository — Server Actions or server-only code may be present and are incompatible with static export."
           else
             echo "No 'use server' directives found (quick check)."
@@ -73,12 +70,6 @@ jobs:
           fi
           echo "next build succeeded."
 
-      - name: "Optional: run next export (ONLY if you are sure the site is static"
-        if: false
-        run: |
-          # Enable this step only if your app is fully static-exportable (no Server Actions/SSR)
-          npm run export
-
       - name: Upload build log
         uses: actions/upload-artifact@v4
         with:
@@ -91,10 +82,3 @@ jobs:
         with:
           name: next-build-output
           path: .next
-
-      - name: Upload out (if present)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: static-out
-          path: out

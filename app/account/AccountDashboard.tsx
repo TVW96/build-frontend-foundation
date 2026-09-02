@@ -8,7 +8,7 @@ import {
   updateBio,
   updateProfile,
   uploadAvatar,
-} from "@/app/account/_actions/account";
+} from "@/app/account/_lib/client-api";
 import type {
   AccountActionResult,
   AccountAddress,
@@ -742,8 +742,7 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
       const actionResult = await action(formData);
       setResult(actionResult);
       if (actionResult.ok) {
-        setModal(null);
-        router.refresh();
+        window.location.reload();
       }
     });
   };
@@ -753,8 +752,7 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
       const actionResult = await updateBio(bio);
       setResult(actionResult);
       if (actionResult.ok) {
-        setBioEditing(false);
-        router.refresh();
+        window.location.reload();
       }
     });
   };
@@ -764,8 +762,7 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
       const actionResult = await deleteAddress(addressId);
       setResult(actionResult);
       if (actionResult.ok) {
-        setModal(null);
-        router.refresh();
+        window.location.reload();
       }
     });
   };
@@ -776,7 +773,6 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
       setResult(actionResult);
       if (actionResult.ok) {
         router.push("/account/signup");
-        router.refresh();
       }
     });
   };
@@ -786,8 +782,7 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
       const actionResult = await removeAvatar();
       setResult(actionResult);
       if (actionResult.ok) {
-        setModal(null);
-        router.refresh();
+        window.location.reload();
       }
     });
   };
@@ -800,8 +795,7 @@ export default function AccountDashboard({ account }: { account: AccountUser }) 
       const actionResult = await uploadAvatar(formData);
       setResult(actionResult);
       if (actionResult.ok) {
-        setModal(null);
-        router.refresh();
+        window.location.reload();
       }
     });
   };
