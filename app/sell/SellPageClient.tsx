@@ -1,64 +1,75 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCurrentAccount } from "@/app/account/_lib/client-api";
+import { getCurrentAccount, readSession } from "@/app/account/_lib/client-api";
+import type { AccountUser } from "@/app/account/_lib/account-types";
+import SellingForm from "./SellingForm";
+import styles from "./sell.module.css";
 
 export default function SellPageClient() {
   const router = useRouter();
-  const [checking, setChecking] = useState(true);
-  const [accountExists, setAccountExists] = useState(false);
+  const [account, setAccount] = useState<AccountUser | null>(null);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let active = true;
-    (async () => {
+    async function checkAccount() {
+      if (!readSession()) {
+        router.replace("/sell/signup-prompt");
+        return;
+      }
       try {
         const user = await getCurrentAccount();
         if (!active) return;
-        if (!user) {
-          // not authenticated -> route to signup prompt within /sell
-          router.replace("/sell/signup-prompt");
-          return;
-        }
-        setAccountExists(true);
+        if (user) setAccount(user);
+        else if (!readSession()) router.replace("/sell/signup-prompt");
+        else setFailed(true);
       } catch {
-        // treat errors as unauthenticated
-        router.replace("/sell/signup-prompt");
-      } finally {
-        if (active) setChecking(false);
+        if (active) setFailed(true);
       }
-    })();
+    }
+    void checkAccount();
     return () => {
       active = false;
     };
-  }, [router]);
+  }, [router, attempt]);
 
-  if (checking) {
+  if (!account)
     return (
-      <main aria-live="polite">
-        <section>
-          <p>Verifying your account…</p>
+      <main id="main-content" className={styles.page}>
+        <section className={styles.welcome} aria-live="polite">
+          <p className={styles.eyebrow}>Your next chapter</p>
+          <h1>
+            {failed
+              ? "We couldn’t reach your account"
+              : "Getting your selling space ready…"}
+          </h1>
+          <p>
+            {failed
+              ? "Your work starts here. Reconnect to verify your account and create a listing."
+              : "Checking your membership before you start selling."}
+          </p>
+          {failed && (
+            <div className={styles.actions}>
+              <button
+                className={styles.primary}
+                onClick={() => {
+                  setFailed(false);
+                  setAttempt(attempt + 1);
+                }}
+              >
+                Try again
+              </button>
+              <Link href="/account/login" className={styles.secondary}>
+                Sign in
+              </Link>
+            </div>
+          )}
         </section>
       </main>
     );
-  }
-
-  if (!accountExists) return null;
-
-  return (
-    <main id="main-content">
-      <section>
-        <h1>Sell on MangaMarketplace</h1>
-        <p>
-          Thanks for being a member — create a listing to sell a manga copy to the
-          community.
-        </p>
-        <div>
-          <p>
-            (Placeholder for listing form — integrate listing form or flow here.)
-          </p>
-        </div>
-      </section>
-    </main>
-  );
+  return <SellingForm account={account} />;
 }

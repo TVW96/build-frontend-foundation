@@ -45,6 +45,9 @@ export default function LoginForm() {
           collector profile.
         </p>
         <div className={styles.successActions}>
+          <Link className={styles.primaryAction} href="/sell">
+            Start selling <span aria-hidden="true">→</span>
+          </Link>
           <Link className={styles.primaryAction} href="/shop">
             Browse the marketplace <span aria-hidden="true">→</span>
           </Link>

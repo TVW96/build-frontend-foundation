@@ -68,10 +68,20 @@ export default function BrowseInventory({
             return (
               <li className={styles.card} key={item.itemId}>
                 <article aria-labelledby={`inventory-title-${item.itemId}`}>
-                  <div className={styles.cover} aria-hidden="true">
-                    <span>読</span>
-                    <small>{String(index + 1).padStart(2, "0")}</small>
-                  </div>
+                  {item.sellerPhotoPath ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      className={styles.sellerPhoto}
+                      src={item.sellerPhotoPath}
+                      alt={`${title} — seller’s copy`}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className={styles.cover} aria-hidden="true">
+                      <span>読</span>
+                      <small>{String(index + 1).padStart(2, "0")}</small>
+                    </div>
+                  )}
                   <div className={styles.cardBody}>
                     <div className={styles.cardTopline}>
                       <span

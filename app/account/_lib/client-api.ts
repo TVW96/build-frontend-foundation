@@ -60,7 +60,7 @@ export function clearSession() {
   notifyAuthChanged();
 }
 
-function readSession(): Session | null {
+export function readSession(): Session | null {
   const serialized =
     sessionStorage.getItem(SESSION_KEY) ?? localStorage.getItem(SESSION_KEY);
   if (!serialized) return null;

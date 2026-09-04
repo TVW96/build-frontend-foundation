@@ -36,7 +36,13 @@ The marketplace should make it easier to:
 
 The frontend should communicate a balance between **modern e-commerce, secondhand trading, Japanese pop culture, and collector culture** while remaining approachable to users who may simply be looking for their next book.
 
-## Account API
+## Start selling
+
+The `/sell/` page supports single copies and bundles, catalog selection or new
+book details, photo uploads, pricing, and review before publication. See
+[the selling workflow](docs/selling.md) for API setup, limits, and verification.
+
+## Account API configuration
 
 Copy `.env.example` to `.env` when the backend is not available at the default
 local address. `NEXT_PUBLIC_BACKEND_API_URL` is used by browser requests and

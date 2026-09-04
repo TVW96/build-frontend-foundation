@@ -66,6 +66,9 @@ export default function SignupForm() {
             <dd>{getCountryName(state.values?.region)}</dd>
           </div>
         </dl>
+        <Link className={styles.primaryAction} href="/sell">
+          Start selling <span aria-hidden="true">→</span>
+        </Link>
         <Link className={styles.primaryAction} href="/shop">
           Explore the marketplace
         </Link>

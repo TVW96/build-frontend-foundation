@@ -156,8 +156,20 @@
   padding: var(--space-4);
   color: var(--sys-color-on-primary-container);
   background:
-    linear-gradient(135deg, transparent 55%, var(--sys-color-secondary-container) 55%),
+    linear-gradient(
+      135deg,
+      transparent 55%,
+      var(--sys-color-secondary-container) 55%
+    ),
     var(--sys-color-primary-container);
+  border-block-end: 1px solid var(--sys-color-border);
+}
+
+.sellerPhoto {
+  inline-size: 100%;
+  block-size: 14rem;
+  object-fit: contain;
+  background: var(--sys-color-surface-subtle);
   border-block-end: 1px solid var(--sys-color-border);
 }
 
