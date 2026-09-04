@@ -38,9 +38,11 @@ The frontend should communicate a balance between **modern e-commerce, secondhan
 
 ## Account API
 
-Copy `.env.example` to `.env.local` when the backend is not available at the
-default local address. `NEXT_PUBLIC_BACKEND_API_URL` must point to the NestJS
-API, which is `http://127.0.0.1:3001` in local development.
+Copy `.env.example` to `.env` when the backend is not available at the default
+local address. `NEXT_PUBLIC_BACKEND_API_URL` is used by browser requests and
+`BACKEND_API_URL` by server rendering; both point to the NestJS API, which is
+`http://127.0.0.1:3001` in local development. PostgreSQL and Supabase server
+credentials must never be added to the frontend environment.
 
 ## GitHub Pages deployment
 
