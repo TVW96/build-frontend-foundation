@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import type { FeaturedInventoryItem } from "@/lib/featured-inventory";
+import { normalizeListings, type FeaturedInventoryItem } from "@/lib/featured-inventory";
 import styles from "./Featured.module.css";
 
 type DisplayMode = "grid" | "carousel" | "hero";
@@ -102,7 +102,7 @@ function PreviewDialog({
           </dl>
           <div className={styles.modalActionRow}>
             <Price value={item.price} />
-            <Link className={styles.itemLink} href={`/product/${encodeURIComponent(item.id)}`}>View full listing <span aria-hidden="true">↗</span></Link>
+            <Link className={styles.itemLink} href={`/product?id=${encodeURIComponent(item.id)}`}>View full listing <span aria-hidden="true">↗</span></Link>
           </div>
         </div>
       </section>
@@ -110,11 +110,26 @@ function PreviewDialog({
   );
 }
 
-export default function FeaturedView({ items }: { items: FeaturedInventoryItem[] }) {
+const apiBaseUrl = (process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://127.0.0.1:3001").replace(/\/$/, "");
+
+export default function FeaturedView({ items: initialItems }: { items: FeaturedInventoryItem[] }) {
+  const [items, setItems] = useState(initialItems);
   const [mode, setMode] = useState<DisplayMode>("grid");
   const [visibleCount, setVisibleCount] = useState(6);
   const [previewItem, setPreviewItem] = useState<FeaturedInventoryItem | null>(null);
   const carousel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`${apiBaseUrl}/listings`, { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Listings unavailable")))
+      .then((payload: unknown) => {
+        const listings = normalizeListings(payload);
+        if (listings.length) setItems(listings);
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, []);
 
   const popularItems = useMemo(
     () => [...items].sort((a, b) => b.popularity - a.popularity).slice(0, 3),

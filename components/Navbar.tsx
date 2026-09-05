@@ -12,6 +12,7 @@ import { type FormEvent, useEffect, useState } from "react";
 
 import styles from "./Navbar.module.css";
 import NavbarMenuToggle from "./NavbarMenuToggle";
+import { useCart } from "./CartProvider";
 
 const utilityLinks = [
   { href: "/help", label: "Help center" },
@@ -31,6 +32,7 @@ export default function Navbar() {
   const router = useRouter();
   const [account, setAccount] = useState<AccountUser | null>(null);
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const { items: cartItems } = useCart();
 
   useEffect(() => {
     let active = true;
@@ -148,8 +150,8 @@ export default function Navbar() {
               <li>
                 <Link className={styles.cartLink} href="/cart">
                   <span>Cart</span>
-                  <span className={styles.cartCount} aria-label="0 items">
-                    0
+                  <span className={styles.cartCount} aria-label={`${cartItems.length} items`}>
+                    {cartItems.length}
                   </span>
                 </Link>
               </li>

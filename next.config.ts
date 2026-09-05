@@ -16,6 +16,7 @@ const pagesBasePath =
 
 const nextConfig: NextConfig = {
   output: "export",
+  allowedDevOrigins: ["127.0.0.1"],
   trailingSlash: true,
   basePath: pagesBasePath,
   env: {

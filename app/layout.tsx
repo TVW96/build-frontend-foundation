@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import ThemeToggle from "@/components/ThemeToggle";
+import CartProvider from "@/components/CartProvider";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -30,9 +31,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <Navbar />
-        <ThemeToggle />
-        {children}
+        <CartProvider>
+          <Navbar />
+          <ThemeToggle />
+          {children}
+        </CartProvider>
       </body>
     </html>
   );

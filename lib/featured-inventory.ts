@@ -10,6 +10,8 @@ export type FeaturedInventoryItem = {
   imageUrl: string;
   popularity: number;
   availability: "available";
+  itemCount?: number;
+  purchasable?: boolean;
 };
 
 type ApiRecord = Record<string, unknown>;
@@ -186,47 +188,33 @@ function asNumber(value: unknown, fallback = 0): number {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
-function normalizeInventory(
-  inventory: unknown,
-  catalog: unknown,
-): FeaturedInventoryItem[] {
-  if (!Array.isArray(inventory)) return [];
+export function normalizeListings(payload: unknown): FeaturedInventoryItem[] {
+  if (!Array.isArray(payload)) return [];
 
-  const products = new Map<string, ApiRecord>();
-  if (Array.isArray(catalog)) {
-    catalog.forEach((entry) => {
-      const product = asRecord(entry);
-      if (product) products.set(asString(product.productId), product);
-    });
-  }
+  return payload.flatMap((entry, index) => {
+    const listing = asRecord(entry);
+    if (!listing || asString(listing.status).toLowerCase() !== "active") return [];
 
-  return inventory.flatMap((entry, index) => {
-    const item = asRecord(entry);
-    const availability = asString(item?.availability).toLowerCase();
-    if (!item || !["available", "listed"].includes(availability)) {
-      return [];
-    }
-
-    const embeddedProduct = asRecord(item.product);
-    const product = embeddedProduct ?? products.get(asString(item.productId)) ?? {};
-    const id = asString(item.itemId, `inventory-${index + 1}`);
-    const title = asString(product.title, asString(item.title, `Available manga ${index + 1}`));
+    const listingItems = Array.isArray(listing.listingItems) ? listing.listingItems : [];
+    const firstListingItem = asRecord(listingItems[0]);
+    const inventoryItem = asRecord(firstListingItem?.inventoryItem);
+    const product = asRecord(inventoryItem?.product);
+    const imagePath = asString(inventoryItem?.sellerPhotoPath);
 
     return [{
-      id,
-      title,
-      series: asString(product.series, asString(item.series, "Independent title")),
-      author: asString(product.author, asString(item.author, "Community seller")),
-      edition: asString(product.edition, asString(item.edition, "Standard edition")),
-      condition: asString(item.condition, "Condition not noted"),
-      description: asString(
-        item.conditionNotes,
-        asString(item.description, "Seller photos and complete copy details are available in the preview."),
-      ),
-      price: asNumber(item.price, asNumber(item.acquisitionPrice)),
-      imageUrl: coverImages[index % coverImages.length],
-      popularity: asNumber(item.popularity, asNumber(item.popularityScore)),
+      id: asString(listing.listingId),
+      title: asString(listing.title, asString(product?.title, `Marketplace listing ${index + 1}`)),
+      series: asString(product?.series, "Independent title"),
+      author: asString(product?.author, "Community seller"),
+      edition: asString(product?.edition, listingItems.length > 1 ? "Collector bundle" : "Standard edition"),
+      condition: asString(inventoryItem?.condition, "Seller described"),
+      description: asString(listing.description, asString(inventoryItem?.conditionNotes, "Seller photos and copy details available.")),
+      price: asNumber(listing.price),
+      imageUrl: imagePath || coverImages[index % coverImages.length],
+      popularity: Math.max(60, 96 - index * 4),
       availability: "available" as const,
+      itemCount: Math.max(1, listingItems.length),
+      purchasable: true,
     }];
   });
 }
@@ -246,11 +234,8 @@ export async function getAvailableInventory(): Promise<FeaturedInventoryItem[]> 
   const apiBase = (process.env.BACKEND_API_URL ?? "http://127.0.0.1:3001").replace(/\/$/, "");
 
   try {
-    const [inventory, catalog] = await Promise.all([
-      fetchApiCollection(`${apiBase}/inventory-items`),
-      fetchApiCollection(`${apiBase}/catalog-products`),
-    ]);
-    const available = normalizeInventory(inventory, catalog);
+    const listings = await fetchApiCollection(`${apiBase}/listings`);
+    const available = normalizeListings(listings);
     if (available.length > 0) return available;
   } catch {
     // The frontend remains useful when the local Nest API is not running.
@@ -258,7 +243,11 @@ export async function getAvailableInventory(): Promise<FeaturedInventoryItem[]> 
 
   return fallbackInventory.flatMap((item) =>
     item.availability === "available"
-      ? [{ ...item, availability: "available" as const }]
+      ? [{ ...item, availability: "available" as const, itemCount: 1, purchasable: false }]
       : [],
   );
+}
+
+export async function getAvailableInventoryItem(id: string): Promise<FeaturedInventoryItem | undefined> {
+  return (await getAvailableInventory()).find((item) => item.id === id);
 }

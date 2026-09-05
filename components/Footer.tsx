@@ -8,7 +8,7 @@ const footerNavigation = [
     title: "Shop",
     links: [
       { href: "/shop", label: "All manga" },
-      { href: "/shop?=used", label: "Buy books" },
+      { href: "/shop", label: "Buy books" },
       { href: "/sell", label: "Sell books" },
     ],
   },
@@ -78,7 +78,7 @@ export default function Footer() {
             <h2>{section.title}</h2>
             <ul>
               {section.links.map((link) => (
-                <li key={link.href}>
+                <li key={`${link.href}-${link.label}`}>
                   <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
